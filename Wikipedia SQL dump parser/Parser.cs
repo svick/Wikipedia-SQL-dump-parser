@@ -46,6 +46,9 @@ namespace WpSqlDumpParser
 				else
 					break;
 			}
+
+			reader.Close();
+			reader = null;
 		}
 
 		void readIntoBuffer()
