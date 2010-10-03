@@ -41,7 +41,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CategoryLink.cs" />
+    <Compile Include="Dump.cs" />
+    <Compile Include="DumpDownloader.cs" />
+    <Compile Include="IObjectWithId.cs" />
+    <Compile Include="Namespace.cs" />
+    <Compile Include="Namespaces.cs" />
+    <Compile Include="Page.cs" />
+    <Compile Include="Pages.cs" />
+    <Compile Include="ParsedValue.cs" />
+    <Compile Include="ParseException.cs" />
+    <Compile Include="Parser.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
