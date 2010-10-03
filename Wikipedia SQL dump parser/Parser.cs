@@ -35,7 +35,14 @@ namespace WpSqlDumpParser
 
 			while (true)
 			{
-				readUntilSuccess(removeBeginning);
+				try
+				{
+					readUntilSuccess(removeBeginning);
+				}
+				catch (ParseException)
+				{
+					break;
+				}
 
 				while (true)
 				{
@@ -48,11 +55,6 @@ namespace WpSqlDumpParser
 					else
 						break;
 				}
-
-				if (buffer[0] == ';')
-					buffer.Remove(0, 1);
-				else
-					break;
 			}
 
 			reader.Close();

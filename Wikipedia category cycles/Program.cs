@@ -37,9 +37,20 @@ namespace WpCategoryCycles
 
 			foreach (var categoryLink in CategoryLinks.Instance.Get(wiki, date))
 			{
-				if (categoryLink.From.Namespace == Namespaces.Category)
+				Page fromPage;
+				try
 				{
-					string fromTitle = categoryLink.From.Title;
+					fromPage = categoryLink.From;
+				}
+				catch (InvalidOperationException)
+				{
+					Console.Error.WriteLine("Error accessing page for category link: from id: {0}, to title: {1}, sort key: {2}", categoryLink.FromId, categoryLink.ToTitle, categoryLink.SortKey);
+					break;
+				}
+
+				if (fromPage.Namespace == Namespaces.Category)
+				{
+					string fromTitle = fromPage.Title;
 					if (!categories.ContainsKey(fromTitle))
 						categories.Add(fromTitle, new Category(fromTitle));
 					string toTitle = categoryLink.ToTitle;
