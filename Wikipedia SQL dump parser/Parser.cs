@@ -89,7 +89,7 @@ namespace WpSqlDumpParser
 			{
 				result = new ParsedValue[columns];
 				for (int i = 0; i < columns; i++)
-					result[i] = new ParsedValue(m.Groups[i].Value);
+					result[i] = new ParsedValue(m.Groups[i + 1].Value);
 				buffer.Remove(0, m.Length);
 			}
 			return m.Success;
