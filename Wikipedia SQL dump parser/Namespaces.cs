@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-namespace WpSqlDumpParser
+﻿namespace WpSqlDumpParser
 {
 	static class Namespaces
 	{
-		public static void CreateRepository(string project = "Project")
+		public static void CreateRepository(string project = null)
 		{
+			if (project == null)
+				project = "Project";
+
 			Namespace[] namespaces = new[]
 			{
 				new Namespace(0, ""),

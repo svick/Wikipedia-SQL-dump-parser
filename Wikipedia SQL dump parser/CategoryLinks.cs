@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -35,6 +36,19 @@ namespace WpSqlDumpParser
 							 values[2].ToString()) into categoryLink
 						 where categoryLink.FromId != 0
 						 select categoryLink;
+		}
+
+		public override IEnumerable<CategoryLink> Get(string wiki, DateTime date)
+		{
+			return Get(wiki, date, true);
+		}
+
+		public IEnumerable<CategoryLink> Get(string wiki, DateTime date, bool downloadPages)
+		{
+			if (Repository<Page>.Instance == null)
+				Pages.Instance.CreateRepository(wiki, date);
+
+			return base.Get(wiki, date);
 		}
 	}
 }
