@@ -31,6 +31,8 @@ namespace WpCategoryCycles
 			Settings.Default.Date = dateString;
 			Settings.Default.Save();
 
+			file = string.Format("{0}-{1}-cycles.txt", wiki, dateString);
+
 			DateTime date = DateTime.ParseExact(dateString, "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture);
 
 			Dictionary<string, Category> categories = new Dictionary<string, Category>();
@@ -90,7 +92,7 @@ namespace WpCategoryCycles
 			}
 		}
 
-		static readonly string file = "cycles.txt";
+		static string file;
 
 		static void ReportCycle(Category alreadyInStack)
 		{
