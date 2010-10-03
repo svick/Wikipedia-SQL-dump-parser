@@ -27,7 +27,7 @@ namespace WpSqlDumpParser
 				@"^\(" +
 				string.Join(
 					",",
-					Enumerable.Repeat(@"([\d.]+|'[^']*')", columns)) +
+					Enumerable.Repeat(@"([\d.]+|'.*?')", columns)) +
 				@"\)";
 			rowRegex = new Regex(rowRegexString, RegexOptions.Compiled);
 
