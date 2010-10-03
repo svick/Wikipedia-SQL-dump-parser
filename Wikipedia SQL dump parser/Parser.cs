@@ -15,29 +15,42 @@ namespace WpSqlDumpParser
 		StringBuilder buffer = new StringBuilder();
 		StreamReader reader;
 		Regex rowRegex;
-		int columns;
-		ParsedValue[] result;
+		Dictionary<string, ParsedValue> result;
+		List<string> columns;
 
-		public IEnumerable<ParsedValue[]> Parse(Stream stream, int columns)
+		public IEnumerable<IDictionary<string, ParsedValue>> Parse(Stream stream)
 		{
-			this.columns = columns;
 			reader = new StreamReader(stream);
+
+			buffer.Clear();
+
+			readUntilSuccess(removeCreateTableBeginning);
+
+			columns = new List<string>();
+
+			while (true)
+				try
+				{
+					readUntilSuccess(parseColumnDefinition);
+				}
+				catch (ParseException)
+				{
+					break;
+				}
 
 			string rowRegexString =
 				@"^\(" +
 				string.Join(
 					",",
-					Enumerable.Repeat(@"(-?[\d.]+|[\d.]+e-?\d+|'.*?')", columns)) +
+					Enumerable.Repeat(@"(-?[\d.]+|[\d.]+e-?\d+|'.*?')", columns.Count)) +
 				@"\)";
 			rowRegex = new Regex(rowRegexString, RegexOptions.Compiled);
-
-			buffer.Clear();
 
 			while (true)
 			{
 				try
 				{
-					readUntilSuccess(removeBeginning);
+					readUntilSuccess(removeInsertBeginning);
 				}
 				catch (ParseException)
 				{
@@ -82,14 +95,26 @@ namespace WpSqlDumpParser
 				throw new ParseException(function.Method.Name);
 		}
 
-		static readonly Regex beginRegex = new Regex(@".*INSERT INTO `\S+` VALUES ", RegexOptions.Compiled | RegexOptions.Singleline);
-
-		bool removeBeginning()
+		bool removeBeginning(Regex beginningRegex)
 		{
-			Match m = beginRegex.Match(buffer.ToString());
+			Match m = beginningRegex.Match(buffer.ToString());
 			if (m.Success)
 				buffer.Remove(0, m.Length);
 			return m.Success;
+		}
+
+		static readonly Regex insertBeginningRegex = new Regex(@"^.*INSERT INTO `\S+` VALUES ", RegexOptions.Compiled | RegexOptions.Singleline);
+
+		bool removeInsertBeginning()
+		{
+			return removeBeginning(insertBeginningRegex);
+		}
+
+		static readonly Regex createTableBeginningRegex = new Regex(@"^.*CREATE TABLE `\S+` \(", RegexOptions.Compiled | RegexOptions.Singleline);
+
+		bool removeCreateTableBeginning()
+		{
+			return removeBeginning(createTableBeginningRegex);
 		}
 
 		bool parseValues()
@@ -97,9 +122,27 @@ namespace WpSqlDumpParser
 			Match m = rowRegex.Match(buffer.ToString());
 			if (m.Success)
 			{
-				result = new ParsedValue[columns];
-				for (int i = 0; i < columns; i++)
-					result[i] = new ParsedValue(m.Groups[i + 1].Value);
+				result = new Dictionary<string, ParsedValue>(columns.Count);
+				for (int i = 0; i < columns.Count; i++)
+				{
+					result[columns[i]] = new ParsedValue(m.Groups[i + 1].Value);
+				}
+				buffer.Remove(0, m.Length);
+			}
+			return m.Success;
+		}
+
+		static readonly Regex columnDefinitionRegex = new Regex(@"^\s*`([a-z_]+)`[^`]+(?:,|\))", RegexOptions.Compiled | RegexOptions.Singleline);
+
+		bool parseColumnDefinition()
+		{
+			Match m = columnDefinitionRegex.Match(buffer.ToString());
+			if (m.Success)
+			{
+				string fullColumnName = m.Groups[1].Value;
+				int firstUnderscore = fullColumnName.IndexOf('_');
+				string columnName = fullColumnName.Substring(firstUnderscore + 1);
+				columns.Add(columnName);
 				buffer.Remove(0, m.Length);
 			}
 			return m.Success;

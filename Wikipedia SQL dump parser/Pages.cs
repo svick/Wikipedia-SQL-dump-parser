@@ -32,12 +32,12 @@ namespace WpSqlDumpParser
 				Namespaces.CreateRepository();
 
 			Parser parser = new Parser();
-			return from values in parser.Parse(stream, 12)
+			return from values in parser.Parse(stream)
 						 select new Page(
-							 values[0].ToInt32(),
-							 values[1].ToInt32(),
-							 values[2].ToString(),
-							 values[5].ToBoolean());
+							 values["id"].ToInt32(),
+							 values["namespace"].ToInt32(),
+							 values["title"].ToString(),
+							 values["is_redirect"].ToBoolean());
 		}
 
 		public override Repository<Page> CreateRepository(string wiki, DateTime date)
