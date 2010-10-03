@@ -22,7 +22,7 @@ namespace WpCategoryCycles
 			if (string.IsNullOrWhiteSpace(rootCategory))
 				rootCategory = Settings.Default.RootCategory;
 			Settings.Default.RootCategory = rootCategory;
-			Console.WriteLine("Date [{0}]: ", Settings.Default.Date);
+			Console.Write("Date [{0}]: ", Settings.Default.Date);
 			string dateString = Console.ReadLine();
 			if (string.IsNullOrWhiteSpace(dateString))
 				dateString = Settings.Default.Date;
