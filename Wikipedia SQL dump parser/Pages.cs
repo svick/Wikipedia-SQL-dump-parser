@@ -15,5 +15,10 @@ namespace WpSqlDumpParser
 					values[2].ToString(),
 					values[5].ToBoolean());
 		}
+
+		public Repository<Page> CreateRepository(Stream stream)
+		{
+			return Repository<Page>.Create(Get(stream));
+		}
 	}
 }
