@@ -32,6 +32,7 @@ namespace WpCategoryCycles
 			Settings.Default.Save();
 
 			file = string.Format("{0}-{1}-cycles.txt", wiki, dateString);
+			File.Delete(file);
 
 			DateTime date = DateTime.ParseExact(dateString, "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture);
 
