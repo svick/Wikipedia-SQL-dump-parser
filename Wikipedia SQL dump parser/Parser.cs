@@ -33,15 +33,23 @@ namespace WpSqlDumpParser
 
 			buffer.Clear();
 
-			readUntilSuccess(removeBeginning);
-
 			while (true)
 			{
-				readUntilSuccess(parseValues);
-				yield return result;
-				if (buffer.Length == 0)
-					readIntoBuffer();
-				if (buffer[0] == ',')
+				readUntilSuccess(removeBeginning);
+
+				while (true)
+				{
+					readUntilSuccess(parseValues);
+					yield return result;
+					if (buffer.Length == 0)
+						readIntoBuffer();
+					if (buffer[0] == ',')
+						buffer.Remove(0, 1);
+					else
+						break;
+				}
+
+				if (buffer[0] == ';')
 					buffer.Remove(0, 1);
 				else
 					break;
