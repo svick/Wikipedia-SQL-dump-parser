@@ -2,6 +2,6 @@
 {
 	public interface IObjectWithId
 	{
-		public int Id { get; }
+		int Id { get; }
 	}
 }

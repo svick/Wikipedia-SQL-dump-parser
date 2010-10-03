@@ -2,7 +2,7 @@
 
 namespace WpSqlDumpParser
 {
-	class ParsedValue
+	public class ParsedValue
 	{
 		string value;
 

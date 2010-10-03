@@ -5,7 +5,7 @@ using System.Text;
 
 namespace WpSqlDumpParser
 {
-	class Namespace : IObjectWithId
+	public class Namespace : IObjectWithId
 	{
 		public int Id { get; protected set; }
 		public string Name { get; protected set; }
