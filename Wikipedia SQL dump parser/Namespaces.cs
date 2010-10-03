@@ -32,5 +32,21 @@
 			};
 			Repository<Namespace>.Create(namespaces);
 		}
+
+		public static Namespace FindNamespaceById(int id)
+		{
+			if (Repository<Namespace>.Instance == null)
+				CreateRepository();
+
+			return Repository<Namespace>.Instance.FindById(id);
+		}
+
+		public static Namespace Category
+		{
+			get
+			{
+				return FindNamespaceById(14);
+			}
+		}
 	}
 }
