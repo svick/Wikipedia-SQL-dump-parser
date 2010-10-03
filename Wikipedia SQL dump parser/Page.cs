@@ -23,6 +23,18 @@ namespace WpSqlDumpParser
 			}
 		}
 
+		public string FullName
+		{
+			get
+			{
+				string namespaceName = Namespace.Name;
+				if (namespaceName == "")
+					return Title;
+				else
+					return namespaceName + ':' + Title;
+			}
+		}
+
 		public Page(int id, int namespaceId, string title, bool isRedirect)
 		{
 			Id = id;
