@@ -5,9 +5,9 @@ using System.Text;
 
 namespace WpSqlDumpParser
 {
-	static class NamespaceFactory
+	static class Namespaces
 	{
-		public static void Run(string project = "Project")
+		public static void CreateRepository(string project = "Project")
 		{
 			Namespace[] namespaces = new[]
 			{
