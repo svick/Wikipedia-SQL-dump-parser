@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
-using System.Text;
 using WpSqlDumpParser;
 
 namespace WpCategoryCycles
 {
 	class Program
 	{
+		static Stack<Tuple<Category, Queue<Category>>> stack;
+
 		static void Main(string[] args)
 		{
 			Console.Write("Wiki [{0}]: ", Settings.Default.Wiki);
@@ -46,6 +48,48 @@ namespace WpCategoryCycles
 					categories[fromTitle].Children.Add(categories[toTitle]);
 				}
 			}
+
+			stack = new Stack<Tuple<Category, Queue<Category>>>();
+			
+			stack.Push(new Tuple<Category,Queue<Category>>(categories[rootCategory], new Queue<Category>(categories[rootCategory].Children)));
+
+			while (stack.Count > 0)
+			{
+				var currentCategory = stack.Peek().Item1;
+				var queue = stack.Peek().Item2;
+				if (!queue.Any())
+				{
+					currentCategory.Closed = true;
+					stack.Pop();
+				}
+				else
+				{
+					var toAdd = queue.Dequeue();
+					if (stack.Any(t => t.Item1 == toAdd))
+					{
+						ReportCycle(toAdd);
+						currentCategory.Children.Remove(toAdd);
+					}
+					else
+					{
+						if (!toAdd.Closed)
+							stack.Push(new Tuple<Category, Queue<Category>>(toAdd, new Queue<Category>(toAdd.Children)));
+					}
+				}
+			}
+		}
+
+		static readonly string file = "cycles.txt";
+
+		static void ReportCycle(Category alreadyInStack)
+		{
+			string cycle = String.Join(
+				" -> ",
+				new[] { alreadyInStack }.Concat(
+					stack.Select(t => t.Item1).TakeWhile(cat => cat != alreadyInStack).Concat(new[] { alreadyInStack })
+				).Select(cat => cat.Title));
+			Console.WriteLine(cycle);
+			File.AppendAllText(file, cycle + Environment.NewLine);
 		}
 	}
 }

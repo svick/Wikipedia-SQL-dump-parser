@@ -6,6 +6,7 @@ namespace WpCategoryCycles
 	{
 		public string Title { get; protected set; }
 		public IList<Category> Children { get; protected set; }
+		public bool Closed { get; set; }
 
 		public Category(string title)
 		{
