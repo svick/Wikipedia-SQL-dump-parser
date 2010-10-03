@@ -56,7 +56,7 @@ namespace WpCategoryCycles
 					string toTitle = categoryLink.ToTitle;
 					if (!categories.ContainsKey(toTitle))
 						categories.Add(toTitle, new Category(toTitle));
-					categories[fromTitle].Children.Add(categories[toTitle]);
+					categories[toTitle].Children.Add(categories[fromTitle]);
 				}
 			}
 
