@@ -1,6 +1,6 @@
 ﻿namespace WpSqlDumpParser
 {
-	static class Namespaces
+	public static class Namespaces
 	{
 		public static void CreateRepository(string project = null)
 		{
