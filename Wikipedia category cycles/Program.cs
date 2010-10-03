@@ -42,10 +42,10 @@ namespace WpCategoryCycles
 				{
 					fromPage = categoryLink.From;
 				}
-				catch (InvalidOperationException)
+				catch (KeyNotFoundException)
 				{
 					Console.Error.WriteLine("Error accessing page for category link: from id: {0}, to title: {1}, sort key: {2}", categoryLink.FromId, categoryLink.ToTitle, categoryLink.SortKey);
-					break;
+					continue;
 				}
 
 				if (fromPage.Namespace == Namespaces.Category)
