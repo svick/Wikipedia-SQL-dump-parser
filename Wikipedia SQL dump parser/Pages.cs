@@ -3,9 +3,28 @@ using System.IO;
 
 namespace WpSqlDumpParser
 {
-	static class Pages
+	public class Pages : DumpWithId<Page>
 	{
-		public IEnumerable<Page> Get(Stream stream)
+		static Pages instance;
+		public static Pages Instance
+		{
+			get
+			{
+				if (instance == null)
+					instance = new Pages();
+				return instance;
+			}
+		}
+
+		private Pages()
+		{ }
+
+		public override string Name
+		{
+			get { return "page"; } 
+		}
+
+		public override IEnumerable<Page> Get(Stream stream)
 		{
 			Parser parser = new Parser();
 			foreach (var values in parser.Parse(stream, 12))
@@ -14,11 +33,6 @@ namespace WpSqlDumpParser
 					values[1].ToInt32(),
 					values[2].ToString(),
 					values[5].ToBoolean());
-		}
-
-		public Repository<Page> CreateRepository(Stream stream)
-		{
-			return Repository<Page>.Create(Get(stream));
 		}
 	}
 }
