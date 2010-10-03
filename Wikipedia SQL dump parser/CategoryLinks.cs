@@ -7,8 +7,8 @@ namespace WpSqlDumpParser
 {
 	public class CategoryLinks : Dump<CategoryLink>
 	{
-		CategoryLinks instance;
-		public CategoryLinks Instance
+		static CategoryLinks instance;
+		public static CategoryLinks Instance
 		{
 			get
 			{
