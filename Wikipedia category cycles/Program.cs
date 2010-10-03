@@ -100,7 +100,7 @@ namespace WpCategoryCycles
 				" -> ",
 				new[] { alreadyInStack }.Concat(
 					stack.Select(t => t.Item1).TakeWhile(cat => cat != alreadyInStack).Concat(new[] { alreadyInStack })
-				).Select(cat => cat.Title));
+				).Select(cat => cat.Title).Reverse());
 			Console.WriteLine(cycle);
 			File.AppendAllText(file, cycle + Environment.NewLine);
 		}
