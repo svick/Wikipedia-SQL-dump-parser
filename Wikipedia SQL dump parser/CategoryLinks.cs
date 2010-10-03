@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace WpSqlDumpParser
 {
-	class CategoryLinks : Dump<CategoryLink>
+	public class CategoryLinks : Dump<CategoryLink>
 	{
 		CategoryLinks instance;
 		public CategoryLinks Instance
