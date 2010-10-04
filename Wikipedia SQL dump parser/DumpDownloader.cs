@@ -29,7 +29,6 @@ namespace WpSqlDumpParser
 			BlockDownloader downloader = new BlockDownloader(url);
 			downloader.UserAgent = "[[w:en:User:Svick]] SQL dump parser";
 			BlockDownloader.Log = true;
-			BlockDownloader.Verbose = true;
 
 			foreach (var chunk in downloader)
 				collection.Add(chunk);

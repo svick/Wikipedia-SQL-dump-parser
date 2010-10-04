@@ -25,6 +25,7 @@ namespace WpSqlDumpParser.Streams
 			int position = 0;
 			bool finished = false;
 
+			int i = 0;
 			while (!finished)
 			{
 				HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Uri);
@@ -72,6 +73,13 @@ namespace WpSqlDumpParser.Streams
 								(float)position / 1024 / 1024,
 								(float)response.ContentLength / 1024 / 1024
 							));
+					else if (Log && ++i % 100 == 0)
+						Console.Error.Log(
+							string.Format(
+								"{0:f2} / {2:f2} MB",
+								(float)position / 1024 / 1024,
+								(float)response.ContentLength / 1024 / 1024
+								));
 
 					yield return buffer;
 				}
