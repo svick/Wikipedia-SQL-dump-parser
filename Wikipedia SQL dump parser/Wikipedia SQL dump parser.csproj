@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="CategoryLink.cs" />
     <Compile Include="CategoryLinks.cs" />
+    <Compile Include="ConsoleLogExtension.cs" />
     <Compile Include="Dump.cs" />
     <Compile Include="DumpDownloader.cs" />
     <Compile Include="IObjectWithId.cs" />
