@@ -33,7 +33,10 @@ namespace WpSqlDumpParser
 
 		public T FindById(int id)
 		{
-			return items[id];
+			if (items.ContainsKey(id))
+				return items[id];
+			else
+				return default(T);
 		}
 	}
 }

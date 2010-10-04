@@ -29,13 +29,17 @@ namespace WpSqlDumpParser
 		public override IEnumerable<CategoryLink> Get(Stream stream)
 		{
 			Parser parser = new Parser();
-			return from values in parser.Parse(stream)
-						 select new CategoryLink(
-							 values["from"].ToInt32(),
-							 values["to"].ToString(),
-							 values["sortkey"].ToString()) into categoryLink
-						 where categoryLink.FromId != 0
-						 select categoryLink;
+			var result = from values in parser.Parse(stream)
+									 select new CategoryLink(
+										 values["from"].ToInt32(),
+										 values["to"].ToString(),
+										 values["sortkey"].ToString()) into categoryLink
+									 where categoryLink.FromId != 0
+									 select categoryLink;
+
+			if (Limiter != null)
+				result = Limiter(result);
+			return result;
 		}
 
 		public override IEnumerable<CategoryLink> Get(string wiki, DateTime date)

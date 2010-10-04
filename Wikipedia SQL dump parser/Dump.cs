@@ -13,6 +13,8 @@ namespace WpSqlDumpParser
 		{
 			return Get(DumpDownloader.DownloadDump(wiki, Name, date));
 		}
+
+		public Func<IEnumerable<T>, IEnumerable<T>> Limiter { get; set; }
 	}
 
 	public abstract class DumpWithId<T> : Dump<T> where T : IObjectWithId

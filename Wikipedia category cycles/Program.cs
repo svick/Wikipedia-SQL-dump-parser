@@ -36,31 +36,23 @@ namespace WpCategoryCycles
 
 			DateTime date = DateTime.ParseExact(dateString, "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture);
 
+			Pages.Instance.Limiter = pages => pages.Where(p => p.Namespace == Namespaces.Category);
+
 			Dictionary<string, Category> categories = new Dictionary<string, Category>();
 
 			foreach (var categoryLink in CategoryLinks.Instance.Get(wiki, date))
 			{
-				Page fromPage;
-				try
-				{
-					fromPage = categoryLink.From;
-				}
-				catch (KeyNotFoundException)
-				{
-					Console.Error.WriteLine("Error accessing page for category link: from id: {0}, to title: {1}, sort key: {2}", categoryLink.FromId, categoryLink.ToTitle, categoryLink.SortKey);
+				Page fromPage = categoryLink.From;
+				if (fromPage == null)
 					continue;
-				}
 
-				if (fromPage.Namespace == Namespaces.Category)
-				{
-					string fromTitle = fromPage.Title;
-					if (!categories.ContainsKey(fromTitle))
-						categories.Add(fromTitle, new Category(fromTitle));
-					string toTitle = categoryLink.ToTitle;
-					if (!categories.ContainsKey(toTitle))
-						categories.Add(toTitle, new Category(toTitle));
-					categories[toTitle].Children.Add(categories[fromTitle]);
-				}
+				string fromTitle = fromPage.Title;
+				if (!categories.ContainsKey(fromTitle))
+					categories.Add(fromTitle, new Category(fromTitle));
+				string toTitle = categoryLink.ToTitle;
+				if (!categories.ContainsKey(toTitle))
+					categories.Add(toTitle, new Category(toTitle));
+				categories[toTitle].Children.Add(categories[fromTitle]);
 			}
 
 			stack = new Stack<Tuple<Category, Queue<Category>>>();
