@@ -56,6 +56,8 @@
     <Compile Include="ProjectName.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository.cs" />
+    <Compile Include="Streams\BlockDownloader.cs" />
+    <Compile Include="Streams\StreamFromBlockingCollection.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

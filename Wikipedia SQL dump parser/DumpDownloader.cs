@@ -1,38 +1,39 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.IO;
 using System.IO.Compression;
-using System.Net;
+using System.Threading.Tasks;
+using WpSqlDumpParser.Streams;
 
 namespace WpSqlDumpParser
 {
-	class DumpDownloader
+	public class DumpDownloader
 	{
-		static readonly TimeSpan initialWaitTime = TimeSpan.FromSeconds(1);
-
 		public static Stream DownloadDump(string wiki, string dump, DateTime date)
 		{
 			string url = string.Format("http://download.wikimedia.org/{0}/{2}/{0}-{2}-{1}.sql.gz", wiki, dump, date.ToString("yyyyMMdd"));
 			Console.Error.WriteLine("{0:dd.MM.yyyy hh:mm:ss} Downloading {1}.", DateTime.Now, url);
 
-			WebClient wc = new WebClient();
-			wc.Headers[HttpRequestHeader.UserAgent] = "[[w:en:User:Svick]] SQL dump parser";
-			Stream httpStream = null;
-			int i = 0;
-			while (httpStream == null)
-				try
-				{
-					httpStream = wc.OpenRead(url);
-				}
-				catch (WebException ex)
-				{
-					TimeSpan waitTime = TimeSpan.FromSeconds(initialWaitTime.TotalSeconds * Math.Pow(2, i));
-					Console.Error.WriteLine(ex.Message);
-					Console.Error.WriteLine("Waiting {0} s.", (int)waitTime.TotalSeconds);
-					System.Threading.Thread.Sleep(waitTime);
-					i++;
-				}
-			GZipStream gzipStream = new GZipStream(httpStream, CompressionMode.Decompress);
+			BlockingCollection<byte[]> queue = new BlockingCollection<byte[]>(50);
+
+			Task.Factory.StartNew(() => Fill(queue, url));
+
+			Stream stream = new StreamFromBlockingCollection(queue);
+
+			GZipStream gzipStream = new GZipStream(stream, CompressionMode.Decompress);
 			return gzipStream;
+		}
+
+		public static void Fill(BlockingCollection<byte[]> collection, string url)
+		{
+			BlockDownloader downloader = new BlockDownloader(url);
+			downloader.UserAgent = "[[w:en:User:Svick]] SQL dump parser";
+			BlockDownloader.Log = true;
+			BlockDownloader.Verbose = true;
+
+			foreach (var chunk in downloader)
+				collection.Add(chunk);
+			collection.CompleteAdding();
 		}
 	}
 }
