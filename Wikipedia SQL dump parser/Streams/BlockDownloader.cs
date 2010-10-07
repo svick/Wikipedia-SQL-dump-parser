@@ -31,7 +31,20 @@ namespace WpSqlDumpParser.Streams
 				HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Uri);
 				request.AddRange(position);
 				request.Timeout = 60000;
-				WebResponse response = request.GetResponse();
+
+				WebResponse response;
+
+				try
+				{
+					response = request.GetResponse();
+				}
+				catch (WebException ex)
+				{
+					if (Log)
+						Console.Error.Log(ex.Message);
+					continue;
+				}
+
 				Stream responseStream = response.GetResponseStream();
 
 				while (!finished)
