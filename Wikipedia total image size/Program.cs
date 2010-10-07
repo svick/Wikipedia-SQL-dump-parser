@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Linq;
+using WpSqlDumpParser;
+using System.Collections.Generic;
 
 namespace WpTotalImageSize
 {
@@ -30,6 +33,42 @@ namespace WpTotalImageSize
 			DateTime date = DateTime.ParseExact(dateString, "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture);
 			DateTime commonsDate = DateTime.ParseExact(commonsDateString, "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture);
 
+			var imageLinks = ImageLinks.Instance.Get(wiki, date, false);
+			SortedSet<string> linkNames = new SortedSet<string>(imageLinks.Select(link => link.ToTitle));
+
+			var mergedImages = OrderedSetOperations.Merge(new[]
+			{
+				Images.Instance.Get(wiki, date),
+				Images.Instance.Get("commonswiki", commonsDate)
+			});
+
+			var imagesEnumerator = mergedImages.GetEnumerator();
+			var linksEnumerator = linkNames.GetEnumerator();
+			bool finished = !imagesEnumerator.MoveNext() || !linksEnumerator.MoveNext();
+
+			long totalSize = 0;
+			int totalCount = 0;
+			int missesCount = 0;
+
+			while (!finished)
+			{
+				int comparison = linksEnumerator.Current.CompareTo(imagesEnumerator.Current.Name);
+				if (comparison > 0)
+					finished = !imagesEnumerator.MoveNext();
+				else if (comparison < 0)
+				{
+					missesCount++;
+					finished = !linksEnumerator.MoveNext();
+				}
+				else
+				{
+					totalSize += imagesEnumerator.Current.Size;
+					totalCount++;
+					finished = !imagesEnumerator.MoveNext() || !linksEnumerator.MoveNext();
+				}
+			}
+
+			Console.WriteLine("{0} different images is used, totalling {1:f2} MB. {2} files weren't accounted for.", totalCount, totalSize, missesCount);
 		}
 	}
 }
