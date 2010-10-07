@@ -41,5 +41,15 @@ namespace WpSqlDumpParser
 				throw new InvalidOperationException();
 			}
 		}
+
+		public T ToEnum<T>() where T : struct
+		{
+			return (T)Enum.Parse(typeof(T), ToString(), true);
+		}
+
+		public DateTime ToDateTime()
+		{
+			return DateTime.Parse(ToString());
+		}
 	}
 }

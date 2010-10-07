@@ -45,6 +45,8 @@
     <Compile Include="ConsoleLogExtension.cs" />
     <Compile Include="Dump.cs" />
     <Compile Include="DumpDownloader.cs" />
+    <Compile Include="Image.cs" />
+    <Compile Include="Images.cs" />
     <Compile Include="IObjectWithId.cs" />
     <Compile Include="Namespace.cs" />
     <Compile Include="Namespaces.cs" />
