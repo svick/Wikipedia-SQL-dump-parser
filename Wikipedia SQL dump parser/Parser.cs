@@ -132,7 +132,7 @@ namespace WpSqlDumpParser
 			return m.Success;
 		}
 
-		static readonly Regex columnDefinitionRegex = new Regex(@"^\s*`([a-z_]+)`[^`]+(?:,|\))", RegexOptions.Compiled | RegexOptions.Singleline);
+		static readonly Regex columnDefinitionRegex = new Regex(@"^\s*`([a-z0-9_]+)`[^`]+(?:,|\))", RegexOptions.Compiled | RegexOptions.Singleline);
 
 		bool parseColumnDefinition()
 		{
