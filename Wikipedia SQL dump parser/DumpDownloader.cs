@@ -26,13 +26,23 @@ namespace WpSqlDumpParser
 
 		public static void Fill(BlockingCollection<byte[]> collection, string url)
 		{
-			BlockDownloader downloader = new BlockDownloader(url);
-			downloader.UserAgent = "[[w:en:User:Svick]] SQL dump parser";
-			BlockDownloader.Log = true;
+			try
+			{
+				BlockDownloader downloader = new BlockDownloader(url);
+				downloader.UserAgent = "[[w:en:User:Svick]] SQL dump parser";
+				BlockDownloader.Log = true;
 
-			foreach (var chunk in downloader)
-				collection.Add(chunk);
-			collection.CompleteAdding();
+				foreach (var chunk in downloader)
+					collection.Add(chunk);
+			}
+			catch (Exception ex)
+			{
+				Console.Out.Log(ex.ToString());
+			}
+			finally
+			{
+				collection.CompleteAdding();
+			}
 		}
 	}
 }
