@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 
 namespace WpSqlDumpParser
 {
@@ -11,10 +12,12 @@ namespace WpSqlDumpParser
 			this.value = value;
 		}
 
+		static readonly Regex escape = new Regex(@"\\(.)", RegexOptions.Compiled);
+
 		public override string ToString()
 		{
 			if (value[0] == '\'' && value[value.Length - 1] == '\'')
-				return value.Substring(1, value.Length - 2);
+				return escape.Replace(value.Substring(1, value.Length - 2), @"$1");
 			else
 				throw new InvalidOperationException();
 		}
