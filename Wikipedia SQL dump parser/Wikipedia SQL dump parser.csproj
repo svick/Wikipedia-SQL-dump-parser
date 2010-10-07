@@ -50,6 +50,7 @@
     <Compile Include="IObjectWithId.cs" />
     <Compile Include="Namespace.cs" />
     <Compile Include="Namespaces.cs" />
+    <Compile Include="OrderedSetOperations.cs" />
     <Compile Include="Page.cs" />
     <Compile Include="Pages.cs" />
     <Compile Include="ParsedValue.cs" />

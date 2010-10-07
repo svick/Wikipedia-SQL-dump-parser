@@ -29,7 +29,7 @@ namespace WpSqlDumpParser
 		Multipart
 	}
 	
-	public class Image
+	public class Image : IComparable<Image>
 	{
 		public string Name { get; protected set; }
 		public int Size { get; protected set; }
@@ -56,6 +56,11 @@ namespace WpSqlDumpParser
 			UserName = userName;
 			Timestamp = timestamp;
 			Sha1 = sha1;
+		}
+
+		public int CompareTo(Image other)
+		{
+			return Name.CompareTo(other.Name);
 		}
 	}
 }
