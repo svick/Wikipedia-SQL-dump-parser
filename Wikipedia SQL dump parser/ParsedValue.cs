@@ -49,7 +49,7 @@ namespace WpSqlDumpParser
 
 		public DateTime ToDateTime()
 		{
-			return DateTime.Parse(ToString());
+			return DateTime.ParseExact(ToString(), "yyyyMMddHHmmss", System.Globalization.CultureInfo.InvariantCulture);
 		}
 	}
 }
