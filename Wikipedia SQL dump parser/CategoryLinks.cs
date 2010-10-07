@@ -49,7 +49,7 @@ namespace WpSqlDumpParser
 
 		public IEnumerable<CategoryLink> Get(string wiki, DateTime date, bool downloadPages)
 		{
-			if (Repository<Page>.Instance == null)
+			if (downloadPages && Repository<Page>.Instance == null)
 				Pages.Instance.CreateRepository(wiki, date);
 
 			return base.Get(wiki, date);

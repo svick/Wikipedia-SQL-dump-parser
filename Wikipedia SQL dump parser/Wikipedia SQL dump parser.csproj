@@ -46,6 +46,8 @@
     <Compile Include="Dump.cs" />
     <Compile Include="DumpDownloader.cs" />
     <Compile Include="Image.cs" />
+    <Compile Include="ImageLink.cs" />
+    <Compile Include="ImageLinks.cs" />
     <Compile Include="Images.cs" />
     <Compile Include="IObjectWithId.cs" />
     <Compile Include="Namespace.cs" />
