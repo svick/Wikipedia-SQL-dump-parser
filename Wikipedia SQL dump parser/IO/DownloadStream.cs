@@ -13,13 +13,15 @@ namespace WpSqlDumpParser.IO
 		public static bool Verbose { get; set; }
 
 		int i = 0;
-		int position = 0;
+		int position;
 		WebResponse response = null;
 		Stream responseStream = null;
 
-		public DownloadStream(string uri)
+		public DownloadStream(string uri, int position = 0)
 		{
 			Uri = uri;
+			this.position = position;
+			Console.Error.Log(string.Format("Downloading {1}.", uri));
 		}
 
 		public override bool CanRead
@@ -49,7 +51,7 @@ namespace WpSqlDumpParser.IO
 		{
 			get
 			{
-				throw new NotSupportedException();
+				return position;
 			}
 			set
 			{
