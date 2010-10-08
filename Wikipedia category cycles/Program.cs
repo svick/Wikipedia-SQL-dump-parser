@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using WpSqlDumpParser;
+using WpSqlDumpParser.EntityCollections;
+using WpSqlDumpParser.Entities;
 
 namespace WpCategoryCycles
 {

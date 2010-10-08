@@ -1,6 +1,7 @@
 ﻿using System;
+using WpSqlDumpParser.EntityCollections;
 
-namespace WpSqlDumpParser
+namespace WpSqlDumpParser.Entities
 {
 	public class ImageLink
 	{

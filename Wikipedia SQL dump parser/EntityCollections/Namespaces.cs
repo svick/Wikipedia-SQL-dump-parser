@@ -1,4 +1,6 @@
-﻿namespace WpSqlDumpParser
+﻿using WpSqlDumpParser.Entities;
+
+namespace WpSqlDumpParser.EntityCollections
 {
 	public static class Namespaces
 	{

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WpSqlDumpParser
+namespace WpSqlDumpParser.Entities
 {
 	public enum MediaType
 	{

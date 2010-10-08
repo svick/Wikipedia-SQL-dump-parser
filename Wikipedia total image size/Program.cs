@@ -1,7 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using WpSqlDumpParser;
-using System.Collections.Generic;
+using WpSqlDumpParser.EntityCollections;
 
 namespace WpTotalImageSize
 {

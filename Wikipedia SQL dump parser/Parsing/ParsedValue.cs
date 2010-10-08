@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text.RegularExpressions;
 
-namespace WpSqlDumpParser
+namespace WpSqlDumpParser.Parsing
 {
 	public class ParsedValue
 	{

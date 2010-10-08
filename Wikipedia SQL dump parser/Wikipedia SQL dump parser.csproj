@@ -40,30 +40,28 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CategoryLink.cs" />
-    <Compile Include="CategoryLinks.cs" />
+    <Compile Include="Entities\CategoryLink.cs" />
+    <Compile Include="EntityCollections\CategoryLinks.cs" />
     <Compile Include="ConsoleLogExtension.cs" />
-    <Compile Include="Dump.cs" />
-    <Compile Include="DumpDownloader.cs" />
-    <Compile Include="Image.cs" />
-    <Compile Include="ImageLink.cs" />
-    <Compile Include="ImageLinks.cs" />
-    <Compile Include="Images.cs" />
+    <Compile Include="EntityCollections\Dump.cs" />
+    <Compile Include="Downloading\DumpDownloader.cs" />
+    <Compile Include="Entities\Image.cs" />
+    <Compile Include="Entities\ImageLink.cs" />
+    <Compile Include="EntityCollections\ImageLinks.cs" />
+    <Compile Include="EntityCollections\Images.cs" />
     <Compile Include="IObjectWithId.cs" />
-    <Compile Include="Namespace.cs" />
-    <Compile Include="Namespaces.cs" />
+    <Compile Include="Entities\Namespace.cs" />
+    <Compile Include="EntityCollections\Namespaces.cs" />
     <Compile Include="OrderedSetOperations.cs" />
-    <Compile Include="Page.cs" />
-    <Compile Include="Pages.cs" />
-    <Compile Include="ParsedValue.cs" />
-    <Compile Include="ParseException.cs" />
-    <Compile Include="Parser.cs" />
+    <Compile Include="Entities\Page.cs" />
+    <Compile Include="EntityCollections\Pages.cs" />
+    <Compile Include="Parsing\ParsedValue.cs" />
+    <Compile Include="Parsing\ParseException.cs" />
+    <Compile Include="Parsing\Parser.cs" />
     <Compile Include="ProjectName.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repository.cs" />
-    <Compile Include="Streams\BlockDownloader.cs" />
-    <Compile Include="Streams\DownloadStream.cs" />
-    <Compile Include="Streams\StreamFromBlockingCollection.cs" />
+    <Compile Include="EntityCollections\Repository.cs" />
+    <Compile Include="Downloading\DownloadStream.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

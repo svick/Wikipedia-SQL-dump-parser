@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using WpSqlDumpParser.EntityCollections;
 
-namespace WpSqlDumpParser
+namespace WpSqlDumpParser.Entities
 {
 	public class Page : IObjectWithId
 	{

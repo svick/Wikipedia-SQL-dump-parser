@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace WpSqlDumpParser
+namespace WpSqlDumpParser.Parsing
 {
 	class ParseException : ApplicationException
 	{

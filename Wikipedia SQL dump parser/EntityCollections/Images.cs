@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using WpSqlDumpParser.Entities;
+using WpSqlDumpParser.Parsing;
 
-namespace WpSqlDumpParser
+namespace WpSqlDumpParser.EntityCollections
 {
 	public class Images : Dump<Image>
 	{

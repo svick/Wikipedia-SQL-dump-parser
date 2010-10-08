@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using WpSqlDumpParser.Downloading;
 
-namespace WpSqlDumpParser
+namespace WpSqlDumpParser.EntityCollections
 {
 	public abstract class Dump<T>
 	{

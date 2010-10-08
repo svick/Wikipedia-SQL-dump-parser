@@ -1,9 +1,8 @@
 ﻿using System;
 using System.IO;
 using System.IO.Compression;
-using WpSqlDumpParser.Streams;
 
-namespace WpSqlDumpParser
+namespace WpSqlDumpParser.Downloading
 {
 	public class DumpDownloader
 	{
