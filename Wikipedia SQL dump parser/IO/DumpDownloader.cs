@@ -2,7 +2,7 @@
 using System.IO;
 using System.IO.Compression;
 
-namespace WpSqlDumpParser.Downloading
+namespace WpSqlDumpParser.IO
 {
 	public class DumpDownloader
 	{

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using WpSqlDumpParser.Downloading;
+using WpSqlDumpParser.IO;
 
 namespace WpSqlDumpParser.EntityCollections
 {

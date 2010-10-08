@@ -2,7 +2,7 @@
 using System.IO;
 using System.Net;
 
-namespace WpSqlDumpParser.Downloading
+namespace WpSqlDumpParser.IO
 {
 	public class DownloadStream : Stream
 	{
