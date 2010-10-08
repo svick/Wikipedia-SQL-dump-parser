@@ -53,6 +53,7 @@
     <Compile Include="IObjectWithId.cs" />
     <Compile Include="Entities\Namespace.cs" />
     <Compile Include="EntityCollections\Namespaces.cs" />
+    <Compile Include="MultiPassOrderer.cs" />
     <Compile Include="OrderedSetOperations.cs" />
     <Compile Include="Entities\Page.cs" />
     <Compile Include="EntityCollections\Pages.cs" />

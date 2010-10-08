@@ -41,8 +41,10 @@ namespace WpTotalImageSize
 			DateTime date = DateTime.ParseExact(dateString, "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture);
 			DateTime commonsDate = DateTime.ParseExact(commonsDateString, "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture);
 
-			var imageLinks = ImageLinks.Instance.Get(wiki, date, false);
-			SortedSet<string> linkNames = new SortedSet<string>(imageLinks.Select(link => link.ToTitle));
+			IEnumerable<string> linkNames = MultiPassOrderer.OrderUnique(
+				() => ImageLinks.Instance.Get(wiki, date, false).Select(link => link.ToTitle),
+				x => x
+				);
 
 			var mergedImages = OrderedSetOperations.Merge(new[]
 			{
