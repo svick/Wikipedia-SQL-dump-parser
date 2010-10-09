@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Net;
 
 namespace WpSqlDumpParser.IO
@@ -91,18 +92,20 @@ namespace WpSqlDumpParser.IO
 					if (Verbose)
 						Console.Error.Log(
 							string.Format(
-								"Just downloaded {0:f2} kB, total {1:f2} / {2:f2} MB.",
+								"{3}: Just downloaded {0:f2} kB, total {1:f2} / {2:f2} MB.",
 								(float)read / 1024,
 								(float)position / 1024 / 1024,
-								(float)response.ContentLength / 1024 / 1024
+								(float)response.ContentLength / 1024 / 1024,
+								response.ResponseUri.Segments.Last()
 							));
 					else if (Log && ++i % 100 == 0)
 					{
 						Console.Error.Log(
 							string.Format(
-								"{0:f2} / {1:f2} MB",
+								"{2}: {0:f2} / {1:f2} MB",
 								(float)position / 1024 / 1024,
-								(float)response.ContentLength / 1024 / 1024
+								(float)response.ContentLength / 1024 / 1024,
+								response.ResponseUri.Segments.Last()
 								));
 					}
 
