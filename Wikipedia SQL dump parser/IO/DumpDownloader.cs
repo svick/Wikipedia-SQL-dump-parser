@@ -6,7 +6,7 @@ namespace WpSqlDumpParser.IO
 {
 	public class DumpDownloader
 	{
-		public static Stream DownloadDump(string wiki, string dump, DateTime date, string cachePath = null)
+		public static Stream DownloadDump(string wiki, string dump, DateTime date)
 		{
 			Stream stream = new CachingStream(wiki, dump, date);
 
