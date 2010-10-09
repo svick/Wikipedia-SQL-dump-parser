@@ -10,7 +10,7 @@ namespace WpSqlDumpParser.Parsing
 	public class Parser
 	{
 		static readonly int intermediateBufferSize = 2048;
-		static readonly int maxTries = 1;
+		static readonly int maxTries = 2;
 	
 		StringBuilder buffer = new StringBuilder();
 		StreamReader reader;

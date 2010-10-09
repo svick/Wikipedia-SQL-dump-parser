@@ -21,7 +21,7 @@ namespace WpSqlDumpParser.IO
 		{
 			Uri = uri;
 			this.position = position;
-			Console.Error.Log(string.Format("Downloading {1}.", uri));
+			Console.Error.Log(string.Format("Downloading {0}.", uri));
 		}
 
 		public override bool CanRead

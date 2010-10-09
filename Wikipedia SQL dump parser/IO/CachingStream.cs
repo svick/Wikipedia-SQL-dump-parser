@@ -71,7 +71,7 @@ namespace WpSqlDumpParser.IO
 		public override int Read(byte[] buffer, int offset, int count)
 		{
 			int result = 0;
-			while (result != 0 && phase < 4)
+			while (result == 0 && phase < 4)
 				switch (phase)
 				{
 				case 0:

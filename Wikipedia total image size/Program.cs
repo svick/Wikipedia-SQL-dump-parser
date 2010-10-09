@@ -14,8 +14,8 @@ namespace WpTotalImageSize
 			Console.Write("Cache path [{0}]: ", Settings.Default.CachePath);
 			string cachePath = Console.ReadLine();
 			if (string.IsNullOrWhiteSpace(cachePath))
-				cachePath = Settings.Default.Wiki;
-			Settings.Default.Wiki = cachePath;
+				cachePath = Settings.Default.CachePath;
+			Settings.Default.CachePath = cachePath;
 			CachingStream.CachePath = cachePath;
 			Console.Write("Wiki [{0}]: ", Settings.Default.Wiki);
 			string wiki = Console.ReadLine();
