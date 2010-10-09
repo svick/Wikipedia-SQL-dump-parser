@@ -43,7 +43,7 @@ namespace WpTotalImageSize
 
 			IEnumerable<string> linkNames = MultiPassOrderer.OrderUnique(
 				() => ImageLinks.Instance.Get(wiki, date, false).Select(link => link.ToTitle),
-				x => x
+				StringComparer.Ordinal
 				);
 
 			StringComparer comparer = StringComparer.Ordinal;
