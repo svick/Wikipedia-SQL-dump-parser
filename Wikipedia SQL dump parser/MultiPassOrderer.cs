@@ -53,7 +53,7 @@ namespace WpSqlDumpParser
 					collection = collection.Where(x => comparer.Compare(x, min) > 0);
 				var enumerator = collection.GetEnumerator();
 
-				for (int i = 0; i < PassSize; i++)
+				while (items.Count < PassSize)
 				{
 					if (!enumerator.MoveNext())
 					{
