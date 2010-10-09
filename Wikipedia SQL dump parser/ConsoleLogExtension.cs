@@ -7,7 +7,7 @@ namespace WpSqlDumpParser
 	{
 		public static void Log(this TextWriter console, string message)
 		{
-			console.WriteLine("{0:dd.MM.yyyy hh:mm:ss} {1}", DateTime.Now, message);
+			console.WriteLine("{0:dd.MM.yyyy HH:mm:ss} {1}", DateTime.Now, message);
 		}
 	}
 }
