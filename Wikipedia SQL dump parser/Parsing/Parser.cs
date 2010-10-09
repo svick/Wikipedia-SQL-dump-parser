@@ -42,7 +42,7 @@ namespace WpSqlDumpParser.Parsing
 				@"^\(" +
 				string.Join(
 					",",
-					Enumerable.Repeat(@"(-?[\d.]+|[\d.]+e-?\d+|''|'.*?(?:[^\\]|\\\\)')", columns.Count)) +
+					Enumerable.Repeat(@"(-?[\d.]+|[\d.]+e-?\d+|'[^']*(?:\\'[^']*)*')", columns.Count)) +
 				@"\)";
 			rowRegex = new Regex(rowRegexString, RegexOptions.Compiled | RegexOptions.Singleline);
 
