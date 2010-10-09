@@ -130,14 +130,14 @@ namespace WpSqlDumpParser.IO
 		{
 			downloadStream = new DownloadStream(url, position);
 			if (filePath != null)
-				fileWriter = File.OpenWrite(filePath);
+				fileWriter = File.Open(filePath, FileMode.Append);
 		}
 
 		int download(byte[] buffer, int offset, int count)
 		{
 			int result = downloadStream.Read(buffer, offset, count);
 			if (fileWriter != null)
-				fileWriter.Write(buffer, offset, count);
+				fileWriter.Write(buffer, offset, result);
 			return result;
 		}
 
