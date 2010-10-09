@@ -60,7 +60,7 @@ namespace WpSqlDumpParser.Entities
 
 		public int CompareTo(Image other)
 		{
-			return Name.CompareTo(other.Name);
+			return StringComparer.Ordinal.Compare(Name, other.Name);
 		}
 	}
 }

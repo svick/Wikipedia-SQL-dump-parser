@@ -17,6 +17,8 @@ namespace WpSqlDumpParser
 
 			public int Compare(T x, T y)
 			{
+				if (keySelector == null)
+					return Comparer<T>.Default.Compare(x, y);
 				return keySelector(x).CompareTo(keySelector(y));
 			}
 		}
@@ -30,10 +32,15 @@ namespace WpSqlDumpParser
 
 		public static IEnumerable<T> OrderUnique<T, K>(Func<IEnumerable<T>> collectionFactory, Func<T, K> keySelector) where K : IComparable<K>
 		{
-			SortedSet<T> items = new SortedSet<T>(new KeyComparer<T, K>(keySelector));
+			return OrderUnique(collectionFactory, new KeyComparer<T, K>(keySelector));
+		}
+
+		public static IEnumerable<T> OrderUnique<T>(Func<IEnumerable<T>> collectionFactory, IComparer<T> comparer)
+		{
+			SortedSet<T> items = new SortedSet<T>(comparer);
 
 			bool firstPass = true;
-			K min = default(K);
+			T min = default(T);
 
 			bool finished = false;
 
@@ -43,7 +50,7 @@ namespace WpSqlDumpParser
 
 				var collection = collectionFactory();
 				if (!firstPass)
-					collection = collection.Where(x => keySelector(x).CompareTo(min) > 0);
+					collection = collection.Where(x => comparer.Compare(x, min) > 0);
 				var enumerator = collection.GetEnumerator();
 
 				for (int i = 0; i < PassSize; i++)
@@ -59,7 +66,7 @@ namespace WpSqlDumpParser
 				while (enumerator.MoveNext())
 				{
 					T current = enumerator.Current;
-					if (keySelector(current).CompareTo(keySelector(items.Max)) < 0)
+					if (comparer.Compare(current, items.Max) < 0)
 						if (items.Add(current))
 							items.Remove(items.Max);
 				}
@@ -67,7 +74,7 @@ namespace WpSqlDumpParser
 				foreach (T item in items)
 					yield return item;
 
-				min = keySelector(items.Max);
+				min = items.Max;
 			}
 		}
 	}

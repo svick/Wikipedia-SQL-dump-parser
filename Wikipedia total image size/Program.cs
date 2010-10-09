@@ -46,6 +46,9 @@ namespace WpTotalImageSize
 				x => x
 				);
 
+			StringComparer comparer = StringComparer.Ordinal;
+			DownloadStream.Log = true;
+
 			var mergedImages = OrderedSetOperations.Merge(new[]
 			{
 				Images.Instance.Get(wiki, date),
@@ -62,7 +65,7 @@ namespace WpTotalImageSize
 
 			while (!finished)
 			{
-				int comparison = linksEnumerator.Current.CompareTo(imagesEnumerator.Current.Name);
+				int comparison = comparer.Compare(linksEnumerator.Current, imagesEnumerator.Current.Name);
 				if (comparison > 0)
 					finished = !imagesEnumerator.MoveNext();
 				else if (comparison < 0)
@@ -74,11 +77,13 @@ namespace WpTotalImageSize
 				{
 					totalSize += imagesEnumerator.Current.Size;
 					totalCount++;
-					finished = !imagesEnumerator.MoveNext() || !linksEnumerator.MoveNext();
+					while (linksEnumerator.Current == imagesEnumerator.Current.Name && !finished)
+						finished = !linksEnumerator.MoveNext();
+					finished |= !imagesEnumerator.MoveNext();
 				}
 			}
 
-			Console.WriteLine("{0} different images is used, totalling {1:f2} MB. {2} files weren't accounted for.", totalCount, totalSize, missesCount);
+			Console.WriteLine("{0} different images used, totalling {1:f2} MB. {2} files weren't accounted for.", totalCount, totalSize, missesCount);
 		}
 	}
 }
