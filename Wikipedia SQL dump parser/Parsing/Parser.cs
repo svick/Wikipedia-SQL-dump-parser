@@ -10,7 +10,7 @@ namespace WpSqlDumpParser.Parsing
 	public class Parser
 	{
 		static readonly int intermediateBufferSize = 2048;
-		static readonly int maxTries = 2;
+		static readonly int parseValuesMaxTries = 15;
 	
 		StringBuilder buffer = new StringBuilder();
 		StreamReader reader;
@@ -24,14 +24,14 @@ namespace WpSqlDumpParser.Parsing
 
 			buffer.Clear();
 
-			readUntilSuccess(removeCreateTableBeginning);
+			readUntilSuccess(removeCreateTableBeginning, 1);
 
 			columns = new List<string>();
 
 			while (true)
 				try
 				{
-					readUntilSuccess(parseColumnDefinition);
+					readUntilSuccess(parseColumnDefinition, 1);
 				}
 				catch (ParseException)
 				{
@@ -50,7 +50,7 @@ namespace WpSqlDumpParser.Parsing
 			{
 				try
 				{
-					readUntilSuccess(removeInsertBeginning);
+					readUntilSuccess(removeInsertBeginning, 1);
 				}
 				catch (ParseException)
 				{
@@ -59,10 +59,10 @@ namespace WpSqlDumpParser.Parsing
 
 				while (true)
 				{
-					readUntilSuccess(parseValues);
+					readUntilSuccess(parseValues, parseValuesMaxTries);
 					yield return result;
 					if (buffer.Length == 0)
-						readIntoBuffer();
+						readIntoBuffer(0);
 					if (buffer[0] == ',')
 						buffer.Remove(0, 1);
 					else
@@ -74,20 +74,23 @@ namespace WpSqlDumpParser.Parsing
 			reader = null;
 		}
 
-		void readIntoBuffer()
+		bool readIntoBuffer(int i)
 		{
-			char[] chars = new char[intermediateBufferSize];
-			int readChars = reader.Read(chars, 0, intermediateBufferSize);
+			int size = intermediateBufferSize << i;
+			char[] chars = new char[size];
+			int readChars = reader.Read(chars, 0, size);
 			buffer.Append(chars, 0, readChars);
+			return readChars > 0;
 		}
 
-		void readUntilSuccess(Func<bool> function)
+		void readUntilSuccess(Func<bool> function, int maxTries)
 		{
 			int i = 0;
 			bool success = function();
 			while (!success && i < maxTries)
 			{
-				readIntoBuffer();
+				if (!readIntoBuffer(i))
+					break;
 				success = function();
 				i++;
 			}
