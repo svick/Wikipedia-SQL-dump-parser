@@ -10,7 +10,7 @@ namespace WpSqlDumpParser.Parsing
 	public class Parser
 	{
 		static readonly int intermediateBufferSize = 2048;
-		static readonly int parseValuesMaxTries = 15;
+		static readonly int parseValuesMaxTries = 13;
 	
 		StringBuilder buffer = new StringBuilder();
 		StreamReader reader;
@@ -42,7 +42,7 @@ namespace WpSqlDumpParser.Parsing
 				@"^\(" +
 				string.Join(
 					",",
-					Enumerable.Repeat(@"(-?[\d.]+|[\d.]+e-?\d+|'[^']*(?:\\'(?:|[^']*[^'\\]))*')", columns.Count)) +
+					Enumerable.Repeat(@"(-?[\d.]+|[\d.]+e-?\d+|'(?:|[^']*(?:[^'\\]|\\\\))(?:\\'(?:|[^']*(?:[^'\\]|\\\\)))*')", columns.Count)) +
 				@"\)";
 			rowRegex = new Regex(rowRegexString, RegexOptions.Compiled | RegexOptions.Singleline);
 
