@@ -19,7 +19,7 @@ namespace WpSqlDumpParser
 			{
 				T current = enumerators.Select(enumerator => enumerator.Current).Min(comparer);
 				yield return current;
-				foreach (IEnumerator<T> enumerator in enumerators.Where(enumerator => enumerator.Current.CompareTo(current) == 0).ToArray())
+				foreach (IEnumerator<T> enumerator in enumerators.Where(enumerator => comparer.Compare(enumerator.Current, current) == 0).ToArray())
 					if (!enumerator.MoveNext())
 						enumerators.Remove(enumerator);
 			}
