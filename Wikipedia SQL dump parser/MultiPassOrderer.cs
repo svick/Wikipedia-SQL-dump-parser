@@ -75,6 +75,7 @@ namespace WpSqlDumpParser
 					yield return item;
 
 				min = items.Max;
+				firstPass = false;
 			}
 		}
 	}
