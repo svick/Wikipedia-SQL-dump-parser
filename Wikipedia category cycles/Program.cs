@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using WpSqlDumpParser;
-using WpSqlDumpParser.EntityCollections;
 using WpSqlDumpParser.Entities;
+using WpSqlDumpParser.EntityCollections;
+using WpSqlDumpParser.IO;
 
 namespace WpCategoryCycles
 {
@@ -14,6 +14,12 @@ namespace WpCategoryCycles
 
 		static void Main(string[] args)
 		{
+			Console.Write("Cache path [{0}]: ", Settings.Default.CachePath);
+			string cachePath = Console.ReadLine();
+			if (string.IsNullOrWhiteSpace(cachePath))
+				cachePath = Settings.Default.CachePath;
+			Settings.Default.CachePath = cachePath;
+			CachingStream.CachePath = cachePath;
 			Console.Write("Wiki [{0}]: ", Settings.Default.Wiki);
 			string wiki = Console.ReadLine();
 			if (string.IsNullOrWhiteSpace(wiki))

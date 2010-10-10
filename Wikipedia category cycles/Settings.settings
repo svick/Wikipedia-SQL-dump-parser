@@ -11,5 +11,8 @@
     <Setting Name="RootCategory" Type="System.String" Scope="User">
       <Value Profile="(Default)">Contents</Value>
     </Setting>
+    <Setting Name="CachePath" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

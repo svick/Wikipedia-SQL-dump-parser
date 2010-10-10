@@ -58,5 +58,17 @@ namespace WpCategoryCycles {
                 this["RootCategory"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string CachePath {
+            get {
+                return ((string)(this["CachePath"]));
+            }
+            set {
+                this["CachePath"] = value;
+            }
+        }
     }
 }
