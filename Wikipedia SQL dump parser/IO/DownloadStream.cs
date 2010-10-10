@@ -111,7 +111,7 @@ namespace WpSqlDumpParser.IO
 
 					return read;
 				}
-				catch (TimeoutException)
+				catch (WebException)
 				{
 					if (Log)
 						Console.Error.Log("Timeout encoutered");
