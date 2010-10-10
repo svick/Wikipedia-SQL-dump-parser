@@ -111,14 +111,23 @@ namespace WpSqlDumpParser.IO
 
 					return read;
 				}
-				catch (WebException)
+				catch (WebException ex)
 				{
-					if (Log)
-						Console.Error.Log("Timeout encoutered");
-					responseStream.Dispose();
-					responseStream = null;
+					handleException(ex);
+				}
+				catch (IOException ex)
+				{
+					handleException(ex);
 				}
 			}
+		}
+
+		void handleException(Exception ex)
+		{
+			if (Log)
+				Console.Error.Log(ex.Message);
+			responseStream.Dispose();
+			responseStream = null;
 		}
 
 		public override long Seek(long offset, SeekOrigin origin)
