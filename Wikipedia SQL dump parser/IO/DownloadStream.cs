@@ -14,7 +14,7 @@ namespace WpSqlDumpParser.IO
 		public static bool Verbose { get; set; }
 
 		int i = 0;
-		int position;
+		long position;
 		WebResponse response = null;
 		Stream responseStream = null;
 
