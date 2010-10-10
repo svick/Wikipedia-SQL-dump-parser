@@ -4,7 +4,7 @@ namespace WpSqlDumpParser.Entities
 {
 	public enum MediaType
 	{
-		Unknow,
+		Unknown,
 		Bitmap,
 		Drawing,
 		Audio,
