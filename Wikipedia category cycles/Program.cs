@@ -39,6 +39,8 @@ namespace WpCategoryCycles
 			Settings.Default.Date = dateString;
 			Settings.Default.Save();
 
+			DownloadStream.Log = true;
+
 			file = string.Format("{0}-{1}-cycles.txt", wiki, dateString);
 			File.Delete(file);
 
