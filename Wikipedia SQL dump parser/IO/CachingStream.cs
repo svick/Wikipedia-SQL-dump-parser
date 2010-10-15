@@ -16,7 +16,7 @@ namespace WpSqlDumpParser.IO
 		/// </summary>
 		int phase = 0;
 
-		int position = 0;
+		long position = 0;
 
 		FileStream fileReader = null;
 		DownloadStream downloadStream = null;

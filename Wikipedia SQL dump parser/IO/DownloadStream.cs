@@ -18,7 +18,7 @@ namespace WpSqlDumpParser.IO
 		WebResponse response = null;
 		Stream responseStream = null;
 
-		public DownloadStream(string uri, int position = 0)
+		public DownloadStream(string uri, long position = 0)
 		{
 			Uri = uri;
 			this.position = position;
