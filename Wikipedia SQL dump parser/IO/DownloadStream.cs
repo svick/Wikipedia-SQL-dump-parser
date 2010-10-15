@@ -89,6 +89,9 @@ namespace WpSqlDumpParser.IO
 					int read = responseStream.Read(buffer, offset, count);
 					position += read;
 
+					if (read == 0)
+						Console.Error.Log("Read 0 bytes from " + response.ResponseUri.Segments.Last());
+
 					if (Verbose)
 						Console.Error.Log(
 							string.Format(
