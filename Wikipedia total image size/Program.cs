@@ -83,7 +83,10 @@ namespace WpTotalImageSize
 				}
 			}
 
-			Console.WriteLine("{0} different images used, totalling {1:f2} MB. {2} files weren't accounted for.", totalCount, totalSize, missesCount);
+			string result = string.Format("{0} different images used, totalling {1:f2} MB. {2} files weren't accounted for.", totalCount, totalSize, missesCount);
+
+			System.IO.File.WriteAllText("result.txt", result);
+			Console.WriteLine(result);
 		}
 	}
 }
