@@ -41,14 +41,16 @@ namespace WpCategoryCycles
 
 			DownloadStream.Log = true;
 
-			file = string.Format("{0}-{1}-cycles.txt", wiki, dateString);
-			File.Delete(file);
+			PlaintextFile = string.Format("{0}-{1}-cycles.txt", wiki, dateString);
+			File.Delete(PlaintextFile);
+            WikitextFile = string.Format("{0}-{1}-cycles.wiki", wiki, dateString);
+            File.Delete(WikitextFile);
 
 			DateTime date = DateTime.ParseExact(dateString, "yyyyMMdd", System.Globalization.CultureInfo.InvariantCulture);
 
 			Pages.Instance.Limiter = pages => pages.Where(p => p.Namespace == Namespaces.Category);
 
-			Dictionary<string, Category> categories = new Dictionary<string, Category>();
+			var categories = new Dictionary<string, Category>();
 
 			foreach (var categoryLink in CategoryLinks.Instance.Get(wiki, date))
 			{
@@ -95,17 +97,25 @@ namespace WpCategoryCycles
 			}
 		}
 
-		static string file;
+	    private static string PlaintextFile;
+	    private static string WikitextFile;
+	    private static int WikitextCyclesWritten;
+	    private static readonly int WikitextCyclesMax = 100;
 
 		static void ReportCycle(Category alreadyInStack)
 		{
-			string cycle = String.Join(
-				" -> ",
-				new[] { alreadyInStack }.Concat(
-					stack.Select(t => t.Item1).TakeWhile(cat => cat != alreadyInStack).Concat(new[] { alreadyInStack })
-				).Select(cat => cat.Title).Reverse());
-			Console.WriteLine(cycle);
-			File.AppendAllText(file, cycle + Environment.NewLine);
+		    var cycleCats = new[] { alreadyInStack }.Concat(
+		        stack.Select(t => t.Item1).TakeWhile(cat => cat != alreadyInStack).Concat(new[] { alreadyInStack })
+		        ).Select(cat => cat.Title).Reverse().ToArray();
+		    string plaintextCycle = string.Join(" -> ", cycleCats);
+			Console.WriteLine(plaintextCycle);
+			File.AppendAllText(PlaintextFile, plaintextCycle + Environment.NewLine);
+            if (WikitextCyclesWritten < WikitextCyclesMax)
+            {
+                string wikitextCycle = "* " + string.Join(" → ", cycleCats.Select(c => string.Format("[[:Category:{0}|{0}]]", c)));
+                File.AppendAllText(WikitextFile, wikitextCycle + Environment.NewLine);
+                WikitextCyclesWritten++;
+            }
 		}
 	}
 }
