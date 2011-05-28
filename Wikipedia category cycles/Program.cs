@@ -112,7 +112,7 @@ namespace WpCategoryCycles
 			File.AppendAllText(PlaintextFile, plaintextCycle + Environment.NewLine);
             if (WikitextCyclesWritten < WikitextCyclesMax)
             {
-                string wikitextCycle = "* " + string.Join(" → ", cycleCats.Select(c => string.Format("[[:Category:{0}|{0}]]", c)));
+                string wikitextCycle = "* " + string.Join(" → ", cycleCats.Select(c => string.Format("[[:Category:{0}|{0}]]", c.Replace('_', ' '))));
                 File.AppendAllText(WikitextFile, wikitextCycle + Environment.NewLine);
                 WikitextCyclesWritten++;
             }
