@@ -7,7 +7,7 @@ using WpSqlDumpParser.Parsing;
 
 namespace WpSqlDumpParser.EntityCollections
 {
-	class LangLinks : Dump<LangLink>
+	public class LangLinks : Dump<LangLink>
 	{
 		static LangLinks instance;
 		public static LangLinks Instance
@@ -51,7 +51,7 @@ namespace WpSqlDumpParser.EntityCollections
 
 		public IEnumerable<LangLink> Get(string wiki, DateTime date, bool downloadPages)
 		{
-			if (downloadPages && Repository<Page>.Instance == null)
+			if (downloadPages)
 				Pages.Instance.CreateRepository(wiki, date);
 
 			return base.Get(wiki, date);

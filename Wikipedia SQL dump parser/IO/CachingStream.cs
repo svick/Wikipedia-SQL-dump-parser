@@ -30,7 +30,7 @@ namespace WpSqlDumpParser.IO
 			string fileName = string.Format("{0}-{2}-{1}.sql.gz", wiki, dump, date.ToString("yyyyMMdd"));
 			if (CachePath != null)
 				filePath = Path.Combine(CachePath, fileName);
-			url = string.Format("http://download.wikimedia.org/{0}/{1}/{2}", wiki, date.ToString("yyyyMMdd"), fileName);
+			url = string.Format("http://dumps.wikimedia.org/{0}/{1}/{2}", wiki, date.ToString("yyyyMMdd"), fileName);
 		}
 
 		public override bool CanRead

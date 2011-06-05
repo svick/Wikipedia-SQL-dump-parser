@@ -3,7 +3,7 @@ using System.IO;
 
 namespace WpSqlDumpParser
 {
-	static class ConsoleLogExtension
+	public static class ConsoleLogExtension
 	{
 		public static void Log(this TextWriter console, string message)
 		{

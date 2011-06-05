@@ -3,7 +3,7 @@ using WpSqlDumpParser.EntityCollections;
 
 namespace WpSqlDumpParser.Entities
 {
-	class LangLink
+	public class LangLink
 	{
 		public int FromId { get; protected set; }
 		public string Lang { get; protected set; }

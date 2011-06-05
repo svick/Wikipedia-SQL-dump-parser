@@ -22,56 +22,61 @@ namespace WpSqlDumpParser.Parsing
 		{
 			reader = new StreamReader(stream);
 
-			buffer.Clear();
+		    try
+		    {
+		        buffer.Clear();
 
-			readUntilSuccess(removeCreateTableBeginning, 1);
+		        readUntilSuccess(removeCreateTableBeginning, 1);
 
-			columns = new List<string>();
+		        columns = new List<string>();
 
-			while (true)
-				try
-				{
-					readUntilSuccess(parseColumnDefinition, 1);
-				}
-				catch (ParseException)
-				{
-					break;
-				}
+		        while (true)
+		            try
+		            {
+		                readUntilSuccess(parseColumnDefinition, 1);
+		            }
+		            catch (ParseException)
+		            {
+		                break;
+		            }
 
-			string rowRegexString =
-				@"^\(" +
-				string.Join(
-					",",
-					Enumerable.Repeat(@"(-?[\d.]+|[\d.]+e-?\d+|'(?:|[^']*(?:[^'\\]|\\\\))(?:\\'(?:|[^']*(?:[^'\\]|\\\\)))*')", columns.Count)) +
-				@"\)";
-			rowRegex = new Regex(rowRegexString, RegexOptions.Compiled | RegexOptions.Singleline);
+		        string rowRegexString =
+		            @"^\(" +
+		            string.Join(
+		                ",",
+		                Enumerable.Repeat(@"(-?[\d.]+|[\d.]+e-?\d+|'(?:|[^']*(?:[^'\\]|\\\\))(?:\\'(?:|[^']*(?:[^'\\]|\\\\)))*')", columns.Count)) +
+		            @"\)";
+		        rowRegex = new Regex(rowRegexString, RegexOptions.Compiled | RegexOptions.Singleline);
 
-			while (true)
-			{
-				try
-				{
-					readUntilSuccess(removeInsertBeginning, 1);
-				}
-				catch (ParseException)
-				{
-					break;
-				}
+		        while (true)
+		        {
+		            try
+		            {
+		                readUntilSuccess(removeInsertBeginning, 1);
+		            }
+		            catch (ParseException)
+		            {
+		                break;
+		            }
 
-				while (true)
-				{
-					readUntilSuccess(parseValues, parseValuesMaxTries);
-					yield return result;
-					if (buffer.Length == 0)
-						readIntoBuffer(0);
-					if (buffer[0] == ',')
-						buffer.Remove(0, 1);
-					else
-						break;
-				}
-			}
-
-			reader.Close();
-			reader = null;
+		            while (true)
+		            {
+		                readUntilSuccess(parseValues, parseValuesMaxTries);
+		                yield return result;
+		                if (buffer.Length == 0)
+		                    readIntoBuffer(0);
+		                if (buffer[0] == ',')
+		                    buffer.Remove(0, 1);
+		                else
+		                    break;
+		            }
+		        }
+		    }
+		    finally
+		    {
+                reader.Close();
+                reader = null;
+		    }
 		}
 
 		bool readIntoBuffer(int i)
