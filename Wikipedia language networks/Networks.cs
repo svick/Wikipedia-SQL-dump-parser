@@ -87,7 +87,7 @@ namespace Wikipedia_language_networks
             {
                 if (langLink.From == null)
                     continue;
-                var from = CreateOrGet(language, langLink.From.Title);
+                var from = CreateOrGet(language, langLink.From.FullName);
                 var to = Get(langLink.Lang, langLink.Title);
                 if (to != null)
                     Connect(from, to);
