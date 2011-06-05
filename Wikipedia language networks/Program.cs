@@ -33,9 +33,10 @@ namespace Wikipedia_language_networks
             }
 
             var largestNonEnwikiNetworks = (from root in networks.Roots
-                                           where !root.Children.Any(p => p.Language == "en")
-                                           orderby root.Children.Select(p => p.Language).Distinct().Count() descending
-                                           select root.Children).Take(50);
+                                            where !root.Children.Any(p => p.Language == "en")
+                                            let languageCount = root.Children.Select(p => p.Language).Distinct().Count()
+                                            orderby languageCount descending
+                                            select new { root.Children, LanguageCount = languageCount }).Take(50);
 
             string fileName = "networks without enwiki.txt";
             using (var writer = new StreamWriter(fileName))
@@ -48,13 +49,13 @@ namespace Wikipedia_language_networks
 
                 foreach (var network in largestNonEnwikiNetworks)
                 {
-                    var articleLinks = from page in network
+                    var articleLinks = from page in network.Children
                                        orderby page.Language, page.Title
                                        select string.Format("[[:{0}:{1}]]", page.Language, page.Title);
                     var articleLinksString = string.Join(", ", articleLinks);
 
                     writer.WriteLine("|-");
-                    writer.WriteLine("| {0} || {1} || {2}", ++i, articleLinksString, network.Count);
+                    writer.WriteLine("| {0} || {1} || {2}", ++i, articleLinksString, network.LanguageCount);
                 }
 
                 writer.WriteLine("|}");
