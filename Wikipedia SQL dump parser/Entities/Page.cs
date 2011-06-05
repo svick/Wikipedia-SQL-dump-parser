@@ -28,11 +28,13 @@ namespace WpSqlDumpParser.Entities
 		{
 			get
 			{
-				string namespaceName = Namespace.Name;
-				if (namespaceName == "")
+			    string namespaceName = Namespace != null
+			                               ? Namespace.Name
+			                               : string.Format("{{{{ns:{0}}}}}", NamespaceId);
+			    if (namespaceName == "")
 					return Title;
-				else
-					return namespaceName + ':' + Title;
+			    
+                return namespaceName + ':' + Title;
 			}
 		}
 
