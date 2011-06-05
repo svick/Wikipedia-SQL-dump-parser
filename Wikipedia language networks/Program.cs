@@ -36,7 +36,7 @@ namespace Wikipedia_language_networks
                                             where !root.Children.Any(p => p.Language == "en")
                                             let languageCount = root.Children.Select(p => p.Language).Distinct().Count()
                                             orderby languageCount descending
-                                            select new { root.Children, LanguageCount = languageCount }).Take(50);
+                                            select new { root.Children, LanguageCount = languageCount }).Take(100);
 
             string fileName = "networks without enwiki.txt";
             using (var writer = new StreamWriter(fileName))
