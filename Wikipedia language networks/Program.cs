@@ -36,29 +36,52 @@ namespace Wikipedia_language_networks
                                             where !root.Children.Any(p => p.Language == "en")
                                             let languageCount = root.Children.Select(p => p.Language).Distinct().Count()
                                             orderby languageCount descending
-                                            select new { root.Children, LanguageCount = languageCount }).Take(100);
+                                            select new { root.Children, LanguageCount = languageCount }).ToArray();
+
+            var sections = new[]
+                           {
+                               new
+                               {
+                                   name = "Articles",
+                                   networks = largestNonEnwikiNetworks
+                                   .Where(n => n.Children.Any(p => !p.Title.Contains(':')))
+                                   .Take(100)
+                               },
+                               new
+                               {
+                                   name = "Other",
+                                   networks = largestNonEnwikiNetworks
+                                   .Where(n => n.Children.All(p => p.Title.Contains(':')))
+                                   .Take(100)
+                               }
+                           };
 
             string fileName = "networks without enwiki.txt";
             using (var writer = new StreamWriter(fileName))
             {
-                writer.WriteLine("{| class=\"wikitable\"");
-                writer.WriteLine("|-");
-                writer.WriteLine("! {0} !! {1} !! {2}", "No.", "Articles", "Count");
-
-                int i = 0;
-
-                foreach (var network in largestNonEnwikiNetworks)
+                foreach (var section in sections)
                 {
-                    var articleLinks = from page in network.Children
-                                       orderby page.Language, page.Title
-                                       select string.Format("[[:{0}:{1}]]", page.Language, page.Title);
-                    var articleLinksString = string.Join(", ", articleLinks);
+                    writer.WriteLine("=={0}==", section.name);
 
+                    writer.WriteLine("{| class=\"wikitable\"");
                     writer.WriteLine("|-");
-                    writer.WriteLine("| {0} || {1} || {2}", ++i, articleLinksString, network.LanguageCount);
-                }
+                    writer.WriteLine("! {0} !! {1} !! {2}", "No.", "Articles", "Count");
 
-                writer.WriteLine("|}");
+                    int i = 0;
+
+                    foreach (var network in section.networks)
+                    {
+                        var articleLinks = from page in network.Children
+                                           orderby page.Language, page.Title
+                                           select string.Format("[[:{0}:{1}]]", page.Language, page.Title);
+                        var articleLinksString = string.Join(", ", articleLinks);
+
+                        writer.WriteLine("|-");
+                        writer.WriteLine("| {0} || {1} || {2}", ++i, articleLinksString, network.LanguageCount);
+                    }
+
+                    writer.WriteLine("|}");
+                }
             }
         }
     }
