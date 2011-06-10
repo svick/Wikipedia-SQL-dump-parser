@@ -65,7 +65,7 @@ namespace Wikipedia_language_networks
 
                     writer.WriteLine("{| class=\"wikitable\"");
                     writer.WriteLine("|-");
-                    writer.WriteLine("! {0} !! {1} !! {2}", "No.", "Articles", "Count");
+                    writer.WriteLine("! {0} !! {1} !! {2}", "No.", "Pages", "Count");
 
                     int i = 0;
 
