@@ -14,14 +14,15 @@ namespace WpSqlDumpParser.IO
 		public static bool Verbose { get; set; }
 
 		int i = 0;
-		long position;
+	    private readonly long startPosition;
+	    private long position;
 		WebResponse response = null;
 		Stream responseStream = null;
 
 		public DownloadStream(string uri, long position = 0)
 		{
 			Uri = uri;
-			this.position = position;
+			this.startPosition = this.position = position;
 			Console.Error.Log(string.Format("Downloading {0}.", uri));
 		}
 
@@ -98,21 +99,19 @@ namespace WpSqlDumpParser.IO
 								"{3}: Just downloaded {0:f2} kB, total {1:f2} / {2:f2} MB.",
 								(float)read / 1024,
 								(float)position / 1024 / 1024,
-								(float)response.ContentLength / 1024 / 1024,
+								(float)(startPosition + response.ContentLength) / 1024 / 1024,
 								response.ResponseUri.Segments.Last()
 							));
 					else if (Log && ++i % 100 == 0)
-					{
-						Console.Error.Log(
-							string.Format(
-								"{2}: {0:f2} / {1:f2} MB",
-								(float)position / 1024 / 1024,
-								(float)response.ContentLength / 1024 / 1024,
-								response.ResponseUri.Segments.Last()
-								));
-					}
+					    Console.Error.Log(
+					        string.Format(
+					            "{2}: {0:f2} / {1:f2} MB",
+					            (float)position / 1024 / 1024,
+					            (float)(startPosition + response.ContentLength) / 1024 / 1024,
+					            response.ResponseUri.Segments.Last()
+					            ));
 
-					return read;
+				    return read;
 				}
 				catch (WebException ex)
 				{
