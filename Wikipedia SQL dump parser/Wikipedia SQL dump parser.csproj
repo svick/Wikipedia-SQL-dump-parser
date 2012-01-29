@@ -42,10 +42,12 @@
   <ItemGroup>
     <Compile Include="Entities\CategoryLink.cs" />
     <Compile Include="Entities\LangLink.cs" />
+    <Compile Include="Entities\PageLink.cs" />
     <Compile Include="EntityCollections\CategoryLinks.cs" />
     <Compile Include="ConsoleLogExtension.cs" />
     <Compile Include="EntityCollections\Dump.cs" />
     <Compile Include="EntityCollections\LangLinks.cs" />
+    <Compile Include="EntityCollections\PageLinks.cs" />
     <Compile Include="IO\CachingStream.cs" />
     <Compile Include="IO\DumpDownloader.cs" />
     <Compile Include="Entities\Image.cs" />

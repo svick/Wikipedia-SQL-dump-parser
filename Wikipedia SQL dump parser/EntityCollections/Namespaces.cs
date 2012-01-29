@@ -43,12 +43,14 @@ namespace WpSqlDumpParser.EntityCollections
 			return Repository<Namespace>.Instance.FindById(id);
 		}
 
+	    public static Namespace Article
+	    {
+	        get { return FindNamespaceById(0); }
+	    }
+
 		public static Namespace Category
 		{
-			get
-			{
-				return FindNamespaceById(14);
-			}
+            get { return FindNamespaceById(14); }
 		}
 	}
 }
