@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace Wikipedia_language_networks
+namespace WpSqlDumpParser
 {
     public static class DateTimeExtensions
     {

@@ -4,13 +4,13 @@ using System.Linq;
 using System.Net;
 using System.Xml.Linq;
 
-namespace Wikipedia_language_networks
+namespace WpSqlDumpParser
 {
-    public class DumpsManager
+    public static class DumpsManager
     {
         private static readonly string SitematrixUrl = "http://en.wikipedia.org/w/api.php?action=sitematrix&format=xml";
         private static readonly string DumpsUrl = "http://dumps.wikimedia.org/";
-        private static readonly string UserAgent = "[[User:Svick]] Wikipedia language networks";
+        private static readonly string UserAgent = "[[User:Svick]] Wikipedia SQL dump parser";
 
         private static WebClient WC
         {
@@ -22,11 +22,11 @@ namespace Wikipedia_language_networks
             }
         }
 
-        readonly Lazy<IEnumerable<string>> m_wikipedias = new Lazy<IEnumerable<string>>(GetWikipedias);
+        private static readonly Lazy<IEnumerable<string>> m_wikipedias = new Lazy<IEnumerable<string>>(GetWikipedias);
 
-        public IEnumerable<string> Wikipedias { get { return m_wikipedias.Value; } }
+        public static IEnumerable<string> Wikipedias { get { return m_wikipedias.Value; } }
 
-        protected static IEnumerable<string> GetWikipedias()
+        private static IEnumerable<string> GetWikipedias()
         {
             XDocument doc;
             using (var sitemaxtrixStream = WC.OpenRead(SitematrixUrl))
@@ -41,7 +41,7 @@ namespace Wikipedia_language_networks
                    select lang.Attribute("code").Value;
         }
 
-        public DateTime GetLastDumpDate(string wiki)
+        public static DateTime GetLastDumpDate(string wiki)
         {
             string directoryListing = null;
             while (directoryListing == null)

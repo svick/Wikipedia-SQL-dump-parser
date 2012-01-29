@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using WpSqlDumpParser.EntityCollections;
@@ -17,15 +16,13 @@ namespace Wikipedia_language_networks
 
             var networks = Networks.Instance;
 
-            var dumpsManager = new DumpsManager();
-
-            foreach (var lang in dumpsManager.Wikipedias)
+            foreach (var lang in DumpsManager.Wikipedias)
             {
                 string dumpName = lang.Replace('-', '_') + "wiki";
 
                 Console.Out.Log(string.Format("Processing {0}.", dumpName));
 
-                DateTime date = dumpsManager.GetLastDumpDate(dumpName);
+                DateTime date = DumpsManager.GetLastDumpDate(dumpName);
 
                 var langLinks =
                     LangLinks.Instance.Get(dumpName, date).Where(ll => ll.From != null && ll.From.NamespaceId == 0); // only articles

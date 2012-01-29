@@ -47,8 +47,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Page.cs" />
-    <Compile Include="DateTimeExtensions.cs" />
-    <Compile Include="DumpsManager.cs" />
     <Compile Include="Networks.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -40,6 +40,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DateTimeExtensions.cs" />
+    <Compile Include="DumpsManager.cs" />
     <Compile Include="Entities\CategoryLink.cs" />
     <Compile Include="Entities\LangLink.cs" />
     <Compile Include="Entities\PageLink.cs" />
