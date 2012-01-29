@@ -8,8 +8,8 @@
     <ProjectGuid>{1E1CFCB0-6631-4857-ACD7-384E19E1DA6B}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>TotalImageSizeExample</RootNamespace>
-    <AssemblyName>TotalImageSizeExample</AssemblyName>
+    <RootNamespace>ChineseCategoryLinks</RootNamespace>
+    <AssemblyName>ChineseCategoryLinks</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <TargetFrameworkProfile>Client</TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>

@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Linq;
 using WpSqlDumpParser.EntityCollections;
 using WpSqlDumpParser.IO;
 
 namespace ChineseCategoryLinks
 {
-	class Program
+    static class Program
 	{
 		static void Main()
 		{

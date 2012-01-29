@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wikipedia total image size"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{C4612810-A8A4-4D9C-8DC2-E7AA85D64352}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TotalImageSizeExample", "TotalImageSizeExample\TotalImageSizeExample.csproj", "{1E1CFCB0-6631-4857-ACD7-384E19E1DA6B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ChineseCategoryLinks", "TotalImageSizeExample\ChineseCategoryLinks.csproj", "{1E1CFCB0-6631-4857-ACD7-384E19E1DA6B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Wikipedia language networks", "Wikipedia language networks\Wikipedia language networks.csproj", "{2BEDB211-24A7-45B9-AF41-A4B4AA94A0D7}"
 EndProject
