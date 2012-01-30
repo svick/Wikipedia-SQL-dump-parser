@@ -2,6 +2,7 @@
 using System.IO;
 using System.Linq;
 using System.Net;
+using System.Reflection;
 
 namespace WpSqlDumpParser.IO
 {
@@ -68,7 +69,16 @@ namespace WpSqlDumpParser.IO
 				if (responseStream == null)
 				{
 					HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Uri);
+#if !MONO
 					request.AddRange(position);
+#else
+					// hack for mono, from http://www.codeguru.com/forum/showpost.php?p=1794639&postcount=10
+					var method = typeof(WebHeaderCollection).GetMethod(
+                        "AddWithoutValidate",
+						BindingFlags.Instance | BindingFlags.NonPublic);
+					
+					method.Invoke (request.Headers, new object[] { "Range", string.Format ("bytes={0}-", position) });
+#endif
 					request.Timeout = 60000;
 
 					try
