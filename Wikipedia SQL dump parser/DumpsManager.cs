@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Xml;
 using System.Xml.Linq;
 
 namespace WpSqlDumpParser
@@ -59,7 +61,12 @@ namespace WpSqlDumpParser
 
             XNamespace ns = "http://www.w3.org/1999/xhtml";
 
-            XDocument doc = XDocument.Parse(directoryListing);
+            // to make sure DTDs are not downloaded
+            var xmlReader = XmlReader.Create(
+                new StringReader(directoryListing),
+                new XmlReaderSettings { XmlResolver = null, DtdProcessing = DtdProcessing.Ignore });
+
+            XDocument doc = XDocument.Load(xmlReader);
 
             return (from elem in doc.Descendants(ns + "a")
                     select DateTimeExtensions.ParseDate(elem.Value)
