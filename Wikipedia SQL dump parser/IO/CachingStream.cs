@@ -36,7 +36,7 @@ namespace WpSqlDumpParser.IO
             if (CachePath != null)
             {
                 filePath = Path.Combine(CachePath, fileName);
-                finishedFilesPath = Path.Combine(CachePath, fileName);
+                finishedFilesPath = Path.Combine(CachePath, FinishedFilesName);
             }
 		    url = string.Format("http://dumps.wikimedia.org/{0}/{1}/{2}", wiki, date.ToString("yyyyMMdd"), fileName);
 		}
