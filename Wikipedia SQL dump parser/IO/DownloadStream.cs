@@ -89,6 +89,11 @@ namespace WpSqlDumpParser.IO
 					{
 						if (Log)
 							Console.Error.Log(ex.Message);
+						
+						var errorResponse = ex.Response as HttpWebResponse;
+						if (errorResponse != null && errorResponse.StatusCode == HttpStatusCode.RequestedRangeNotSatisfiable)
+							return 0;
+						
 						continue;
 					}
 
