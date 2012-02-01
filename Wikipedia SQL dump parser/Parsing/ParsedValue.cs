@@ -12,7 +12,7 @@ namespace WpSqlDumpParser.Parsing
 			this.value = value;
 		}
 
-		static readonly Regex escape = new Regex(@"\\(.)", RegexOptions.Compiled);
+		static readonly Regex escape = new Regex(@"\\([\\'""])", RegexOptions.Compiled);
 
 		public override string ToString()
 		{
