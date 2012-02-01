@@ -1,10 +1,13 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 
 namespace WpSqlDumpParser.IO
 {
 	public class CachingStream : Stream
 	{
+	    private static readonly string FinishedFilesName = "finished.txt";
+
 		public static string CachePath { get; set; }
 
 		/// <summary>
@@ -22,15 +25,20 @@ namespace WpSqlDumpParser.IO
 		DownloadStream downloadStream = null;
 		FileStream fileWriter = null;
 
-		readonly string filePath = null;
-		readonly string url;
+        private readonly string fileName;
+        private readonly string filePath;
+	    private readonly string finishedFilesPath;
+	    private readonly string url;
 
-		public CachingStream(string wiki, string dump, DateTime date)
+	    public CachingStream(string wiki, string dump, DateTime date)
 		{
-			string fileName = string.Format("{0}-{2}-{1}.sql.gz", wiki, dump, date.ToString("yyyyMMdd"));
-			if (CachePath != null)
-				filePath = Path.Combine(CachePath, fileName);
-			url = string.Format("http://dumps.wikimedia.org/{0}/{1}/{2}", wiki, date.ToString("yyyyMMdd"), fileName);
+			fileName = string.Format("{0}-{2}-{1}.sql.gz", wiki, dump, date.ToString("yyyyMMdd"));
+            if (CachePath != null)
+            {
+                filePath = Path.Combine(CachePath, fileName);
+                finishedFilesPath = Path.Combine(CachePath, fileName);
+            }
+		    url = string.Format("http://dumps.wikimedia.org/{0}/{1}/{2}", wiki, date.ToString("yyyyMMdd"), fileName);
 		}
 
 		public override bool CanRead
@@ -85,7 +93,7 @@ namespace WpSqlDumpParser.IO
 					if (result == 0)
 					{
 						fileReader.Close();
-						phase = 2;
+						phase = FinishedDownloading() ? 4 : 2;
 					}
 					break;
 				case 2:
@@ -98,6 +106,7 @@ namespace WpSqlDumpParser.IO
 					{
 						downloadStream.Close();
 						fileWriter.Close();
+                        SetFinishedDownloading();
 						phase = 4;
 					}
 					break;
@@ -106,7 +115,21 @@ namespace WpSqlDumpParser.IO
 			return result;
 		}
 
-		bool initFileReading()
+	    private bool FinishedDownloading()
+	    {
+            if (!File.Exists(finishedFilesPath))
+                return false;
+
+	        return File.ReadLines(finishedFilesPath).Contains(fileName);
+	    }
+
+        private void SetFinishedDownloading()
+        {
+            if (!FinishedDownloading())
+                File.AppendAllLines(finishedFilesPath, new[] { fileName });
+        }
+
+	    bool initFileReading()
 		{
 			try
 			{
