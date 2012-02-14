@@ -35,7 +35,9 @@ namespace WpSqlDumpParser.EntityCollections
 									 select new CategoryLink(
 										 values["from"].ToInt32(),
 										 values["to"].ToString(),
-										 values["sortkey"].ToString()) into categoryLink
+										 values["sortkey"].ToString(),
+                                         (CategoryLinkType)Enum.Parse(typeof(CategoryLinkType), values["type"].ToString(), true))
+                                         into categoryLink
 									 where categoryLink.FromId != 0
 									 select categoryLink;
 

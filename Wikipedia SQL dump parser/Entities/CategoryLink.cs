@@ -3,11 +3,19 @@ using WpSqlDumpParser.EntityCollections;
 
 namespace WpSqlDumpParser.Entities
 {
+    public enum CategoryLinkType
+    {
+        Page,
+        Subcat,
+        File
+    }
+
 	public class CategoryLink
 	{
 		public int FromId { get; protected set; }
 		public string ToTitle { get; protected set; }
 		public string SortKey { get; protected set; }
+        public CategoryLinkType Type { get; protected set; }
 
 		public Page From
 		{
@@ -20,11 +28,12 @@ namespace WpSqlDumpParser.Entities
 			}
 		}
 
-		public CategoryLink(int fromId, string toTitle, string sortKey)
+		public CategoryLink(int fromId, string toTitle, string sortKey, CategoryLinkType type)
 		{
 			FromId = fromId;
 			ToTitle = toTitle;
 			SortKey = sortKey;
+		    Type = type;
 		}
 	}
 }
