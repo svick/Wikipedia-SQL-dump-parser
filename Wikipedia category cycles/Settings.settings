@@ -5,9 +5,6 @@
     <Setting Name="Wiki" Type="System.String" Scope="User">
       <Value Profile="(Default)">enwiki</Value>
     </Setting>
-    <Setting Name="Date" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
     <Setting Name="RootCategory" Type="System.String" Scope="User">
       <Value Profile="(Default)">Contents</Value>
     </Setting>

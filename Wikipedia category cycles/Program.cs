@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using WpSqlDumpParser;
 using WpSqlDumpParser.Entities;
 using WpSqlDumpParser.EntityCollections;
 using WpSqlDumpParser.IO;
@@ -30,13 +31,11 @@ namespace WpCategoryCycles
 			if (string.IsNullOrWhiteSpace(rootCategory))
 				rootCategory = Settings.Default.RootCategory;
 			Settings.Default.RootCategory = rootCategory;
-			Console.Write("Date [{0}]: ", Settings.Default.Date);
+		    var defaultDate = DumpsManager.GetLastDumpDate(wiki).ToString("yyyMMdd");
+			Console.Write("Date [{0}]: ", defaultDate);
 			string dateString = Console.ReadLine();
 			if (string.IsNullOrWhiteSpace(dateString))
-				dateString = Settings.Default.Date;
-			if (string.IsNullOrWhiteSpace(dateString))
-				dateString = DateTime.Today.ToString("yyyyMMdd");
-			Settings.Default.Date = dateString;
+			    dateString = defaultDate;
 			Settings.Default.Save();
 
 			DownloadStream.Log = true;
