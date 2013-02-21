@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using WpSqlDumpParser;
@@ -21,21 +23,33 @@ namespace WpCategoryCycles
 				cachePath = Settings.Default.CachePath;
 			Settings.Default.CachePath = cachePath;
 			CachingStream.CachePath = cachePath;
+
 			Console.Write("Wiki [{0}]: ", Settings.Default.Wiki);
 			string wiki = Console.ReadLine();
 			if (string.IsNullOrWhiteSpace(wiki))
 				wiki = Settings.Default.Wiki;
 			Settings.Default.Wiki = wiki;
-			Console.Write("Root category [{0}]: ", Settings.Default.RootCategory);
+
+		    var rootCategories = Settings.Default.RootCatgories;
+            if (rootCategories == null)
+            {
+                rootCategories = new NameValueCollection();
+                Settings.Default.RootCatgories = rootCategories;
+            }
+		    string oldRootCategory = rootCategories[wiki] ?? Settings.Default.RootCategory;
+			Console.Write("Root category [{0}]: ", oldRootCategory);
 			string rootCategory = Console.ReadLine();
-			if (string.IsNullOrWhiteSpace(rootCategory))
-				rootCategory = Settings.Default.RootCategory;
+		    if (string.IsNullOrWhiteSpace(rootCategory))
+		        rootCategory = oldRootCategory;
+		    rootCategories[wiki] = rootCategory;
 			Settings.Default.RootCategory = rootCategory;
+
 		    var defaultDate = DumpsManager.GetLastDumpDate(wiki).ToString("yyyMMdd");
 			Console.Write("Date [{0}]: ", defaultDate);
 			string dateString = Console.ReadLine();
 			if (string.IsNullOrWhiteSpace(dateString))
 			    dateString = defaultDate;
+
 			Settings.Default.Save();
 
 			DownloadStream.Log = true;
