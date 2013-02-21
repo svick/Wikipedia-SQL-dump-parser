@@ -11,7 +11,7 @@
     <Setting Name="CachePath" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="RootCatgories" Type="System.Collections.Specialized.NameValueCollection" Scope="User">
+    <Setting Name="RootCatgories" Type="System.Xml.XmlDocument" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
   </Settings>

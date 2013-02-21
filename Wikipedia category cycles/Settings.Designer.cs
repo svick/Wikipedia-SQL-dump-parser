@@ -61,9 +61,9 @@ namespace WpCategoryCycles {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.Collections.Specialized.NameValueCollection RootCatgories {
+        public global::System.Xml.XmlDocument RootCatgories {
             get {
-                return ((global::System.Collections.Specialized.NameValueCollection)(this["RootCatgories"]));
+                return ((global::System.Xml.XmlDocument)(this["RootCatgories"]));
             }
             set {
                 this["RootCatgories"] = value;

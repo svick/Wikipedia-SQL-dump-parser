@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Configuration;
 using System.IO;
 using System.Linq;
+using System.Xml;
 using WpSqlDumpParser;
 using WpSqlDumpParser.Entities;
 using WpSqlDumpParser.EntityCollections;
@@ -33,15 +32,28 @@ namespace WpCategoryCycles
 		    var rootCategories = Settings.Default.RootCatgories;
             if (rootCategories == null)
             {
-                rootCategories = new NameValueCollection();
+                rootCategories = new XmlDocument();
                 Settings.Default.RootCatgories = rootCategories;
             }
-		    string oldRootCategory = rootCategories[wiki] ?? Settings.Default.RootCategory;
-			Console.Write("Root category [{0}]: ", oldRootCategory);
+		    var elements = rootCategories.GetElementsByTagName(wiki);
+		    XmlElement wikiElement;
+		    string oldRootCategory;
+		    if (elements.Count != 0)
+		    {
+		        wikiElement = (XmlElement)elements[0];
+		        oldRootCategory = wikiElement.Value;
+		    }
+		    else
+		    {
+		        wikiElement = rootCategories.CreateElement(wiki);
+		        rootCategories.AppendChild(wikiElement);
+		        oldRootCategory = Settings.Default.RootCategory;
+		    }
+		    Console.Write("Root category [{0}]: ", oldRootCategory);
 			string rootCategory = Console.ReadLine();
 		    if (string.IsNullOrWhiteSpace(rootCategory))
 		        rootCategory = oldRootCategory;
-		    rootCategories[wiki] = rootCategory;
+		    wikiElement.InnerText = rootCategory;
 			Settings.Default.RootCategory = rootCategory;
 
 		    var defaultDate = DumpsManager.GetLastDumpDate(wiki).ToString("yyyMMdd");
