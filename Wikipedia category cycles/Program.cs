@@ -10,30 +10,32 @@ using WpSqlDumpParser.IO;
 
 namespace WpCategoryCycles
 {
-	class Program
+    static class Program
 	{
 		static Stack<Tuple<Category, Queue<Category>>> stack;
 
-		static void Main(string[] args)
+		static void Main()
 		{
-			Console.Write("Cache path [{0}]: ", Settings.Default.CachePath);
+		    var settings = Settings.Default;
+
+		    Console.Write("Cache path [{0}]: ", settings.CachePath);
 			string cachePath = Console.ReadLine();
 			if (string.IsNullOrWhiteSpace(cachePath))
-				cachePath = Settings.Default.CachePath;
-			Settings.Default.CachePath = cachePath;
+				cachePath = settings.CachePath;
+			settings.CachePath = cachePath;
 			CachingStream.CachePath = cachePath;
 
-			Console.Write("Wiki [{0}]: ", Settings.Default.Wiki);
+			Console.Write("Wiki [{0}]: ", settings.Wiki);
 			string wiki = Console.ReadLine();
 			if (string.IsNullOrWhiteSpace(wiki))
-				wiki = Settings.Default.Wiki;
-			Settings.Default.Wiki = wiki;
+				wiki = settings.Wiki;
+			settings.Wiki = wiki;
 
-		    var rootCategories = Settings.Default.RootCatgories;
+		    var rootCategories = settings.RootCatgories;
             if (rootCategories == null)
             {
                 rootCategories = new XmlDocument();
-                Settings.Default.RootCatgories = rootCategories;
+                settings.RootCatgories = rootCategories;
             }
 		    var elements = rootCategories.GetElementsByTagName(wiki);
 		    XmlElement wikiElement;
@@ -47,14 +49,14 @@ namespace WpCategoryCycles
 		    {
 		        wikiElement = rootCategories.CreateElement(wiki);
 		        rootCategories.AppendChild(wikiElement);
-		        oldRootCategory = Settings.Default.RootCategory;
+		        oldRootCategory = settings.RootCategory;
 		    }
 		    Console.Write("Root category [{0}]: ", oldRootCategory);
 			string rootCategory = Console.ReadLine();
 		    if (string.IsNullOrWhiteSpace(rootCategory))
 		        rootCategory = oldRootCategory;
 		    wikiElement.InnerText = rootCategory;
-			Settings.Default.RootCategory = rootCategory;
+			settings.RootCategory = rootCategory;
 
 		    var defaultDate = DumpsManager.GetLastDumpDate(wiki).ToString("yyyMMdd");
 			Console.Write("Date [{0}]: ", defaultDate);
@@ -62,7 +64,7 @@ namespace WpCategoryCycles
 			if (string.IsNullOrWhiteSpace(dateString))
 			    dateString = defaultDate;
 
-			Settings.Default.Save();
+			settings.Save();
 
 			DownloadStream.Log = true;
 
