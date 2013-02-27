@@ -32,23 +32,25 @@ namespace WpCategoryCycles
 			settings.Wiki = wiki;
 
 		    var rootCategories = settings.RootCatgories;
-            if (rootCategories == null)
+            if (rootCategories == null || rootCategories.DocumentElement.Name != "wikis")
             {
                 rootCategories = new XmlDocument();
+                var root = rootCategories.CreateElement("wikis");
+                rootCategories.AppendChild(root);
                 settings.RootCatgories = rootCategories;
             }
-		    var elements = rootCategories.GetElementsByTagName(wiki);
+		    var elements = rootCategories.DocumentElement.GetElementsByTagName(wiki);
 		    XmlElement wikiElement;
 		    string oldRootCategory;
 		    if (elements.Count != 0)
 		    {
 		        wikiElement = (XmlElement)elements[0];
-		        oldRootCategory = wikiElement.Value;
+		        oldRootCategory = wikiElement.InnerText;
 		    }
 		    else
 		    {
 		        wikiElement = rootCategories.CreateElement(wiki);
-		        rootCategories.AppendChild(wikiElement);
+		        rootCategories.DocumentElement.AppendChild(wikiElement);
 		        oldRootCategory = settings.RootCategory;
 		    }
 		    Console.Write("Root category [{0}]: ", oldRootCategory);
