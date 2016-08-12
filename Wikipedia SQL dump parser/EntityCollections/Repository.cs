@@ -33,10 +33,9 @@ namespace WpSqlDumpParser.EntityCollections
 
 		public T FindById(int id)
 		{
-			if (items.ContainsKey(id))
-				return items[id];
-			else
-				return default(T);
+		    T result;
+		    items.TryGetValue(id, out result);
+		    return result;
 		}
 	}
 }

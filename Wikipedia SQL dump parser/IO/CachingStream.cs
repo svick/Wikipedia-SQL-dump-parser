@@ -30,9 +30,9 @@ namespace WpSqlDumpParser.IO
 	    private readonly string finishedFilesPath;
 	    private readonly string url;
 
-	    public CachingStream(string wiki, string dump, DateTime date)
+	    public CachingStream(string wiki, string dump, DateTime date, string extension = ".sql.gz")
 		{
-			fileName = string.Format("{0}-{2}-{1}.sql.gz", wiki, dump, date.ToString("yyyyMMdd"));
+			fileName = string.Format("{0}-{2}-{1}{3}", wiki, dump, date.ToString("yyyyMMdd"), extension);
             if (CachePath != null)
             {
                 filePath = Path.Combine(CachePath, fileName);

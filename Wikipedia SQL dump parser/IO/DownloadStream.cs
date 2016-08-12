@@ -117,7 +117,7 @@ namespace WpSqlDumpParser.IO
 								(float)(startPosition + response.ContentLength) / 1024 / 1024,
 								response.ResponseUri.Segments.Last()
 							));
-					else if (Log && ++i % 100 == 0)
+					else if (Log && ++i % 10000 == 0)
 					    Console.Error.Log(
 					        string.Format(
 					            "{2}: {0:f2} / {1:f2} MB",
