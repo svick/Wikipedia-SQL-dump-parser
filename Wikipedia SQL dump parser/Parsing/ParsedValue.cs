@@ -32,7 +32,15 @@ namespace WpSqlDumpParser.Parsing
 			return double.Parse(value, System.Globalization.CultureInfo.InvariantCulture);
 		}
 
-		public bool ToBoolean()
+        public float? ToNullableFloat()
+        {
+            if (value == "NULL")
+                return null;
+
+            return float.Parse(value, System.Globalization.CultureInfo.InvariantCulture);
+        }
+
+        public bool ToBoolean()
 		{
 			switch (ToInt32())
 			{
